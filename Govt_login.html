@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kerala State Report Summary</title>
+  <link rel="stylesheet" href="Govt_Login.css" />
+  <style>
+   
+  </style>
+</head>
+<body>
+<header class="modern-header">
+  <div class="logo-section">
+    <img src="https://img.onmanorama.com/content/dam/mm/en/kerala/top-news/images/2024/1/29/kerala-government-ls.jpg?w=1120&h=583" alt="Kerala Logo" />
+  </div>
+  <div class="text-section">
+    <h1>Kerala State Report Summary</h1>
+    <p>Welcome to the Kerala Government Internal Login Portal</p>
+  </div>
+  <div class="btn-section">
+    <button class="home-button" onclick="window.location.href='index.html'">🏠 Home</button>
+  </div>
+</header>
+
+
+  <main class="container">
+    <section class="login-box">
+      <h2>Administrative Login</h2>
+      <p><strong>Only authorized personnel may access this portal.</strong></p>
+<ul style="padding-left: 20px; font-size: 14px; color: #333;">
+  <li> Secure access for CM, MD, DM, and Vendors</li>
+  <li>Login credentials are unique per user</li>
+  <li> Unauthorized access is prohibited and monitored</li>
+  <li> Access level is based on selected role</li>
+</ul>
+
+      <label for="role">Select Role</label>
+      <select id="role">
+        <option value="">Choose your administrative role</option>
+       <option value="cm">👑 Chief Minister</option>
+       <option value="md">🧑‍💼 Managing Director</option>
+       <option value="dm">🏛 District Magistrate</option>
+       <option value="constructor">🛠 Vendor</option>
+
+      </select>
+
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Enter your username" />
+
+      <label for="password">Password</label>
+<div class="password-wrapper">
+  <input type="password" id="password" placeholder="Enter your password" />
+  <span class="toggle-eye" onclick="togglePassword()">👁️</span>
+</div>
+<label for="captchaInput">Captcha</label>
+<canvas id="captchaCanvas" width="150" height="50" style="border:1px solid #ccc; border-radius:5px; background:#f5f5f5; display:block; margin-bottom:10px;"></canvas>
+<button type="button" onclick="generateCaptcha()" class="reload-captcha-btn small-left">🔁 Reload</button>
+<input type="text" id="captchaInput" placeholder="Enter the captcha shown above" />
+
+
+      <button onclick="login()">Login to Portal</button>
+      <p class="note">Need help? Contact IT support at <a href="mailto:support@kerala.gov.in">support@kerala.gov.in</a></p>
+    </section>
+
+    <section class="info-box">
+      <h2>🌲 Kerala - God's Own Country</h2>
+      <div class="stats">
+        <div>
+          <h3>14</h3>
+          <p>Districts</p>
+        </div>
+        <div>
+          <h3>33.4M</h3>
+          <p>Population</p>
+        </div>
+      </div>
+      <p><strong>Capital:</strong> Thiruvananthapuram</p>
+      <p><strong>Language:</strong> Malayalam</p>
+      <p><strong>Literacy Rate:</strong> 93.91% (Highest in India)</p>
+      <p><strong>Area:</strong> 38,852 km²</p>
+
+      <div class="hierarchy-box">
+        <h3>👥 Access Hierarchy</h3>
+        <ul>
+          <li class="cm">Chief Minister - Full state-wide access</li>
+          <li class="dm">District Magistrate - District-level access only</li>
+          <li class="constructor">Constructor - Project-specific access</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Government of Kerala. All rights reserved.
+  </footer>
+
+  <script src="Govt_login.js"></script>
+</body>
+</html>

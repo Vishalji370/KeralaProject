@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tech Admin Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
+      background: url('image1.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      z-index: 0;
+    }
+
+    .login-container {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.15);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+      padding: 40px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      color: #fff;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-container h2 {
+      margin-bottom: 20px;
+      font-size: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 15px 0 8px;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 10px;
+      border: 1.5px solid #ccc;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: #ffc107;
+      box-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
+    }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-wrapper input {
+      padding-right: 40px;
+    }
+
+    .toggle-eye {
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 18px;
+      color: #333;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 14px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(to right, #f7971e, #ffd200);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255, 200, 0, 0.4);
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(to right, #ffd200, #f7971e);
+    }
+
+    .back-link {
+      margin-top: 20px;
+      display: inline-block;
+      font-size: 14px;
+      color: #eee;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    .error {
+      color: #ff4d4d;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 25px 20px;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>🔐 Tech Admin Login</h2>
+    <form id="loginForm">
+      <label for="role">Select Role</label>
+      <select id="role" required>
+        <option value="">-- Select Role --</option>
+        <option value="HeadTech">HeadTech</option>
+        <option value="Cmtech">Cmtech</option>
+        <option value="Ministertech">Ministertech</option>
+        <option value="DMtech">DMtech</option>
+        <option value="Constructortech">Constructortech</option>
+      </select>
+
+      <label for="username">Username</label>
+      <input type="text" id="username" required>
+
+      <label for="password">Password</label>
+      <div class="password-wrapper">
+        <input type="password" id="password" required>
+        <span class="toggle-eye" onclick="togglePassword()">👁️</span>
+      </div>
+
+      <button type="submit">Login to Admin Panel</button>
+      <div class="error" id="errorMsg"></div>
+    </form>
+    <a href="index.html" class="back-link">← Back to Home</a>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const errorMsg = document.getElementById('errorMsg');
+
+    const credentials = {
+      HeadTech: { username: "headadmin", password: "head123" },
+      Cmtech: { username: "cmadmin", password: "cm123" },
+      Ministertech: { username: "ministeradmin", password: "minister123" },
+      DMtech: { username: "dmadmin", password: "dm123" },
+      Constructortech: { username: "constructoradmin", password: "constructor123" }
+    };
+
+    loginForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const role = document.getElementById('role').value;
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if (!role) {
+        errorMsg.textContent = "Please select a role.";
+        return;
+      }
+
+      const validCreds = credentials[role];
+
+      if (username === validCreds.username && password === validCreds.password) {
+        window.location.href = "Admin.html";
+      } else {
+        errorMsg.textContent = "Invalid credentials for " + role + ".";
+      }
+    });
+
+    function togglePassword() {
+      const input = document.getElementById("password");
+      input.type = input.type === "password" ? "text" : "password";
+    }
+  </script>
+</body>
+</html>

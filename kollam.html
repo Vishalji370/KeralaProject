@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kerala DM Dashboard - District Administration</title>
+    <meta name="description" content="Digital governance platform for Kerala district administration and departmental coordination" />
+    <link rel="stylesheet" href="kollam.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    
+    <div class="dashboard-container">
+        <!-- Government Header -->
+        <div class="government-header">
+            <div class="header-emblem">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/1200px-Emblem_of_India.svg.png" alt="Government of India" class="emblem-image">
+            </div>
+            <div class="header-text">
+                <h1 class="govt-title">Government of Kerala</h1>
+                <h2 class="dept-title">District Administration - kollam</h2>
+                <p class="hindi-text">सत्यमेव जयते</p>
+            </div>
+            <a href="md_dashboard.html" class="home-button">Home</a>
+
+            <div class="header-logo">
+                <img src="https://img.onmanorama.com/content/dam/mm/en/kerala/top-news/images/2024/1/29/kerala-government-ls.jpg?w=1120&h=583" alt="Kerala Government" class="kerala-logo">
+            </div>
+        </div>
+ 
+  <div class="sidebar">
+    <ul>
+      <li onclick="location.href='kollam.html'"><i class="fas fa-chart-line"></i><span>Dashboard</span></li>
+      <li onclick="showProjectsPage()"><i class="fas fa-building"></i><span>Development Project</span></li>
+      <li onclick="showMediaGalleryPage()"><i class="fas fa-photo-video"></i><span>Media Gallery</span></li>
+      <li onclick="location.href='kollamreport.html'"><i class="fas fa-chart-pie"></i><span>Report & Analytics</span></li>
+     <li class="logout" onclick="confirmLogout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></li>
+     </ul>
+  </div>
+  <div class="main-content-wrapper">
+        <!-- Breadcrumb Navigation -->
+        <nav class="breadcrumb">
+            <a href="#" onclick="showDashboard()"></a>
+            <span id="breadcrumbPath"></span>
+        </nav>
+
+        <!-- Main Dashboard Content -->
+        <div id="dashboardContent">
+            <!-- Header Section -->
+            <div class="header-section">
+                <div class="header-content">
+                    <div class="header-info">
+                        <h1 class="main-title">District Performance Overview</h1>
+                        <p class="subtitle"> District, Kerala</p>
+                    </div>
+                    <!--code of notification bar-->
+                     <div class="notification-icon" onclick="toggleNotifications()">
+    🔔
+    <span class="notification-alert" id="alertDot">0</span>
+  </div>
+  <div class="notification-dropdown hidden" id="notificationDropdown">
+    <h4>Notifications</h4>
+    <ul id="notificationList"></ul>
+  </div>
+</div>
+<!--end of the code -->
+                    <div class="user-info">
+                        <p class="welcome-text">,</p>
+                        <p class="user-name"></p>
+                    </div>
+                </div>
+                
+                <!-- Stats Overview -->
+                <div class="stats-grid">
+                    <div class="stat-card emerald clickable" onclick="showProjectsPage()">
+                        <div class="stat-content">
+                            <div class="stat-text">
+                                <p class="stat-label">Total Projects</p>
+                                <p class="stat-value" id="totalProjects">Loading...</p>
+                            </div>
+                            <i class="fas fa-file-text stat-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card blue clickable" onclick="showDepartmentsPage()">
+                        <div class="stat-content">
+                            <div class="stat-text">
+                                <p class="stat-label">Departments</p>
+                                <p class="stat-value" id="totalDepartments">Loading...</p>
+                            </div>
+                            <i class="fas fa-users stat-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card amber">
+                        <div class="stat-content">
+                            <div class="stat-text">
+                                <p class="stat-label">Avg. Completion</p>
+                                <p class="stat-value" id="avgCompletion">Loading...</p>
+                            </div>
+                            <i class="fas fa-chart-line stat-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card purple clickable" onclick="showNotificationsPage()">
+                        <div class="stat-content">
+                            <div class="stat-text">
+                                <p class="stat-label">Last Updated</p>
+                                <p class="stat-value">Today</p>
+                            </div>
+                            <i class="fas fa-calendar stat-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Graph Analytics Section -->
+            <div class="analytics-section">
+                <div class="analytics-header">
+                    <h2 class="analytics-title">
+                        <i class="fas fa-chart-bar"></i>
+                        Department Analytics
+                    </h2>
+                    <div class="filter-controls">
+                        <label for="departmentFilter" class="visually-hidden">Filter by Department</label>
+                        <select id="departmentFilter" class="filter-select" aria-label="Filter by Department">
+                            <option value="all">All Departments</option>
+                            <option value="Health Department">Health Department</option>
+                            <option value="Public Works Department">Public Works Department</option>
+                            <option value="Education Department">Education Department</option>
+                            <option value="Agriculture Department">Agriculture Department</option>
+                        </select>
+                        <label for="chartType" class="visually-hidden">Select Chart Type</label>
+                        <select id="chartType" class="filter-select" aria-label="Select Chart Type">
+                            <option value="bar">Bar Chart</option>
+                            <option value="doughnut">Doughnut Chart</option>
+                            <option value="line">Line Chart</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="departmentChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Department Cards Grid -->
+            <div class="departments-grid" id="departmentsGrid">
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading departments...</p>
+                </div>
+            </div>
+        </div>
+        <!-- Project Tracker Page Content -->
+<div id="projectTrackerContent" class="page-content hidden">
+    <div class="page-header">
+        <h2><i class="fas fa-stream"></i> Project Tracking Overview</h2>
+        <p>Track project approval status across departments and hierarchy levels.</p>
+    </div>
+
+    <div class="tracker-container">
+        <div class="project-selector">
+            <label for="projectSelector">Select Project:</label>
+            <select id="projectSelector" onchange="renderTrackingTimeline()">
+                <option value="">-- Choose Project --</option>
+                <option value="p1">Trivandrum Hospital Expansion</option>
+                <option value="p2">Highway Widening Phase II</option>
+                <option value="p3">Smart School Project</option>
+            </select>
+        </div>
+
+        <div class="hierarchy-tracker">
+            <div class="tracking-timeline" id="trackingTimeline">
+                <!-- Timeline steps will be injected here -->
+            </div>
+            <div class="tracking-info" id="trackingInfo">
+                <!-- Info cards will be injected here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <!-- Projects Page Content -->
+        <div id="projectsContent" class="page-content hidden">
+            <div class="page-header">
+                <h2><i class="fas fa-project-diagram"></i> All Projects</h2>
+<div class="filter-section">
+  <input type="text" id="projectSearch" class="filter-select" placeholder="Search Projects..." />
+  <button class="status-btn" onclick="exportToExcel()">Export Excel</button>
+  <button class="status-btn" onclick="exportToPDF()">Export PDF</button>
+</div>
+
+                <div class="filter-section">
+                    <label for="projectDepartmentFilter" class="visually-hidden">Filter by Department</label>
+                    <select id="projectDepartmentFilter" class="filter-select" aria-label="Filter by Department">
+                        <option value="all">All Departments</option>
+                    </select>
+                    <label for="projectStatusFilter" class="visually-hidden">Filter by Project Status</label>
+                    <select id="projectStatusFilter" class="filter-select" aria-label="Filter by Project Status">
+                        <option value="all">All Status</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Ongoing">Ongoing</option>
+                        <option value="Pending">Pending</option>
+                    </select>
+                </div>
+            </div>
+            <div id="projectsList" class="projects-list"></div>
+        </div>
+
+        <!-- Departments Page Content -->
+        <div id="departmentsContent" class="page-content hidden">
+            <div class="page-header">
+                <h2><i class="fas fa-building"></i> All Departments</h2>
+<div class="filter-section"> 
+  <input type="text" id="departmentSearch" class="filter-select" placeholder="Search Departments..." />
+</div>
+
+                <div class="district-info">
+                    <p>kollam District - Complete Department Directory</p>
+                </div>
+            </div>
+            <div id="allDepartmentsList" class="departments-list"></div>
+        </div>
+
+        <!-- Notifications Page Content -->
+        <div id="notificationsContent" class="page-content hidden">
+            <div class="page-header">
+                <h2><i class="fas fa-bell"></i> Latest Notifications</h2>
+                <p class="notifications-subtitle">Real-time updates DM level  and departments</p>
+            </div>
+            <div id="notificationsList" class="notifications-list"></div>
+        </div>
+        <!-- Settings Page Content -->
+<div id="settingsContent" class="page-content hidden">
+  <div class="page-header">
+    <h2><i class="fas fa-cog"></i> User Settings</h2>
+  </div>
+  <div class="analytics-section">
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" value="anoop.kumar" disabled title="Username" placeholder="Username" />
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" value="anoop.ias@kerala.gov.in" disabled placeholder="Email address" title="Email address" />
+    </div>
+    <div class="form-group">
+      <label>Preferred Language</label>
+      <select aria-label="Preferred Language">
+        <option>English</option>
+        <option>Malayalam</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Theme</label>
+      <select aria-label="Theme">
+        <option>Light</option>
+        <option>Dark</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary">Save Settings</button>
+    </div>
+  </div>
+</div>
+
+
+        <!-- Department Details Page Content -->
+        <div id="departmentDetailsContent" class="page-content hidden">
+            <div class="page-header">
+                <h2 id="departmentDetailsTitle"><i class="fas fa-info-circle"></i> Department Details</h2>
+                <button class="back-btn" onclick="showDashboard()">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </button>
+            </div>
+            <div id="departmentDetailsBody" class="department-details"></div>
+        </div>
+        
+
+        
+<!-- Media Gallery Page Content -->
+<div id="mediaGalleryContent" class="page-content hidden">
+  <div class="page-header">
+    <h2><i class="fas fa-photo-video"></i> Media Gallery</h2>
+  </div>
+  <div class="media-grid">
+    <div class="media-item">
+      <img src="https://ivhq.imgix.net/images/projects/india-kerala/volunteer-abroad-in-india-ivhq-kerala-medical-hero.jpg?auto=format,compress" alt="Gallery Image 1">
+      <p>Health Camp 2025 - Varkala</p>
+    </div>
+    <div class="media-item">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Neendakara_bridge_2020.jpg" alt="Gallery Image 2">
+      <p>Bridge Inauguration - Neyyattinkara</p>
+    </div>
+    <div class="media-item">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQf4a6KcDp8MNVkZz5oz5djgYKzQUJVJIL_uA&s" alt="Gallery Image 3">
+      <p>School Renovation Progress</p>
+    </div>
+    <div class="media-item">
+      <img src="https://cdn.downtoearth.org.in/dte/userfiles/images/18-20140228-01.jpg" alt="Gallery Image 4">
+      <p>Rural Road Expansion</p>
+    </div>
+  </div>
+</div>
+
+<!-- Upload Modal -->
+        <div id="uploadModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTitle"></h3>
+                    <button class="modal-close" onclick="closeUploadModal()">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="upload-options">
+                        <div class="upload-section">
+                            <h4><i class="fas fa-file-upload"></i> </h4>
+                            <div class="file-upload-area" onclick="document.getElementById('fileInput').click()">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Click to select file or drag and drop</p>
+                                <small>Supports PDF, DOC, XLSX, JPG, PNG (Max 10MB)</small>
+                            </div>
+                            <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.xlsx,.jpg,.jpeg,.png" style="display: none;">
+                        </div>
+                        
+                        <div class="upload-divider">
+                            <span>OR</span>
+                        </div>
+                        
+                        <div class="camera-section">
+                            <h4><i class="fas fa-camera"></i> Take Photo</h4>
+                            <div class="camera-controls">
+                                <button class="camera-btn" onclick="startCamera()">
+                                    <i class="fas fa-camera"></i>
+                                    Open Camera
+                                </button>
+                                <button class="camera-btn secondary" onclick="capturePhoto()" id="captureBtn" disabled>
+                                    <i class="fas fa-camera-retro"></i>
+                                    Capture
+                                </button>
+                            </div>
+                            
+                            <div class="camera-preview">
+                                <video id="cameraVideo" autoplay style="display: none;"></video>
+                                <canvas id="captureCanvas" style="display: none;"></canvas>
+                                <div id="capturedImage" class="captured-image"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="upload-details">
+                        <div class="form-group">
+                            <label for="reportTitle">Report Title:</label>
+                            <input type="text" id="reportTitle" placeholder="Enter report title">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="reportDescription">Description:</label>
+                            <textarea id="reportDescription" placeholder="Enter report description" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="reportCategory">Category:</label>
+                            <select id="reportCategory">
+                                <option value="">Select Category</option>
+                                <option value="progress">Progress Report</option>
+                                <option value="financial">Financial Report</option>
+                                <option value="completion">Completion Report</option>
+                                <option value="issue">Issue Report</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                </div>
+          
+      
+
+     
+  <!-- Footer Section -->
+<footer class="kerala-footer">
+  <div class="footer-container">
+    <div class="footer-about">
+      <h3>Kerala Government</h3>
+      <p>
+        Official portal of the Government of Kerala. Bringing transparency, services, and information
+        to the people of Kerala.
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Departments</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Citizen Services</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-contact">
+      <h4>Contact Info</h4>
+      <p><i class="fas fa-map-marker-alt"></i> Secretariat, kollam, Kerala, India</p>
+      <p><i class="fas fa-phone-alt"></i> +91 471 1234567</p>
+      <p><i class="fas fa-envelope"></i> info@kerala.gov.in</p>
+    </div>
+  </div>
+    <div class="footer-social">
+      <h4>Follow Us</h4>
+      <div class="social-icons">
+        <a href="#" aria-label="Facebook" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Twitter" title="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="YouTube" title="YouTube"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </div>
+ 
+
+  <div class="footer-bottom">
+    <p>© 2025 Government of Kerala. All Rights Reserved.</p>
+  </div>
+  </div>
+    </div>
+</footer>
+
+    <!-- Logout Confirmation Modal -->
+
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">
+        <div class="toast-content">
+            <span id="toastMessage"></span>
+            <button onclick="hideToast()" class="toast-close">&times;</button>
+        </div>
+    </div>
+    <!-- Logout Confirmation Modal -->
+<div id="logoutModal" class="modal hidden">
+  <div class="modal-content" style="max-width: 400px;">
+    <div class="modal-header">
+      <h3>Confirm Logout</h3>
+      <button class="modal-close" onclick="closeLogoutModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p>Are you sure you want to logout?</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeLogoutModal()">Cancel</button>
+      <button class="btn-primary" onclick="logout()">Logout</button>
+    </div>
+  </div>
+</div>
+
+
+    <script src="kollam.js"></script>
+
+<div id="imageModal" class="modal-viewer hidden" onclick="this.classList.add('hidden')">
+  <img id="modalImage" src="" alt="Full Image" />
+</div>
+<script>
+function showMediaGalleryPage() {
+  hideAllPages();
+  document.getElementById('mediaGalleryContent').classList.remove('hidden');
+  updateBreadcrumb('Dashboard > Media Gallery');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.media-item img').forEach(img => {
+    img.addEventListener('click', () => {
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImage');
+      modalImg.src = img.src;
+      modal.classList.remove('hidden');
+    });
+  });
+});
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const target = urlParams.get('target');
+
+   if (target === 'projects') {
+  showProjectsPage();
+} else if (target === 'media') {
+  showMediaGalleryPage();
+} else if (target === 'notifications') {
+  showNotificationsPage();
+} else if (target === 'departments') {
+  showDepartmentsPage();
+} else if (target === 'settings') {
+  document.getElementById('settingsContent').classList.remove('hidden');
+  document.getElementById('dashboardContent').classList.add('hidden');
+}
+
+  });
+</script>
+<div id="reasonPopup" class="modal hidden" onclick="hidePendingReason()">
+  <div class="modal-content" onclick="event.stopPropagation();">
+    <div class="modal-header">
+      <h3>Reason for Pending Status</h3>
+      <button class="modal-close" onclick="hidePendingReason()">&times;</button>
+    </div>
+    <div class="modal-body" id="pendingReasonContent">
+      <p>Loading reason...</p>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

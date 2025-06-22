@@ -1,0 +1,654 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f6f8;
+}
+/*nav and side bar*/
+.main-header {
+  text-align: center;
+  margin-top: 89px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #056014;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.header-top {
+  background-color: rgb(22, 160, 10);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 2rem;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 60px;
+  right: 0;
+  z-index: 1001;
+ margin-left: -70px;
+  display: flex;
+  height: 70px;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+}
+.header-left img {
+  width: 90px;
+  height: 50px;
+  border-radius: 28px;
+}
+.header-left .title-text {
+  display: flex;
+  flex-direction: column;
+}
+.header-left .title-text h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+}
+.header-left .title-text span {
+  font-size: 13px;
+  color: #666;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: white;
+}
+.header-right .time {
+  font-size: 15px;
+  color: #333;
+}
+.header-right .notif {
+  position: relative;
+  size: 70px;
+}
+.header-right .notif .dot {
+  position: absolute;
+  top: -4px;
+  right: -10px;
+  background: red;
+  color: white;
+  font-size: 11px;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  line-height: 16px;
+}
+.header-right .profile {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.header-right .profile img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #056014;
+}
+.header-right .profile-info {
+  text-align:center;
+}
+.header-right .logout {
+  font-size: 18px;
+  color: #c62828;
+  cursor: pointer;
+}
+
+/*sidebar*/
+.sidebar {
+  box-sizing: border-box;
+  width: 60px;
+  background-color: #036914;
+  transition: width 0.3s;
+  position: fixed;
+  top: 63px;
+  left: 0;
+  height: 100%;
+  color: #edf1f1;
+  overflow: hidden;
+  z-index: 1000;
+
+}
+
+.sidebar:hover {
+  width: 220px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 40px 0;
+}
+
+.sidebar li {
+  display: flex;
+  align-items: center;
+ padding: 22px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+/* ---------------- DASHBOARD CONTENT ---------------- */
+.dashboard {
+  margin-left: -2px;
+  margin-top: 20px
+; /* top padding accounts for navbar */
+  transition: margin-left 0.3s;
+}
+
+.sidebar:hover ~ .dashboard {
+  margin-left: 180px;
+}
+
+.dashboard h1 {
+  font-size: 2em;
+  color: #37eacf;
+}
+
+.dashboard p {
+  font-size: 1.1em;
+  color: #333;
+}
+
+.sidebar li:hover {
+  background-color: #2e3d55;
+}
+
+.sidebar i {
+  font-size: 1.2rem;
+  width: 30px;
+  text-align: center;
+}
+
+.sidebar span {
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.sidebar:hover span {
+  opacity: 1;
+}
+
+.dashboard {
+  margin-left: 60px;
+  padding: 2rem;
+  transition: margin-left 0.3s;
+}
+
+.sidebar:hover ~ .dashboard {
+  margin-left: 220px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.2em;
+  margin-bottom: 4px;
+}
+
+/*main content*/
+.main-header {
+  background-color: #2e7d32;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-size: 28px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.settings-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  padding: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.settings-card {
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.settings-card h2 {
+  margin-top: 0;
+  color: #2e7d32;
+  margin-bottom: 15px;
+}
+
+.settings-card label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: 500;
+}
+
+.settings-card input[type="text"],
+.settings-card input[type="email"],
+.settings-card input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.settings-card input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.settings-card button {
+  margin-top: 15px;
+  background-color: #2e7d32;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.settings-card button:hover {
+  background-color: #1b5e20;
+}
+
+/* Logout Modal Overlay */
+#logoutModal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+  display: none; /* Hidden by default */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Modal Box */
+#logoutModal .modal-content {
+  background-color: #fff;
+  padding: 30px 20px;
+  border-radius: 10px;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease;
+  position: relative;
+}
+
+/* Close (×) Button */
+#logoutModal .close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #555;
+  cursor: pointer;
+}
+
+/* Modal Title */
+#logoutModal .modal-content h3 {
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #333;
+}
+
+/* Buttons */
+#logoutModal .modal-content button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Logout (Red) Button */
+#logoutModal .modal-content button:first-child {
+  background-color: #d9534f;
+  color: white;
+}
+
+/* Cancel (Gray) Button */
+#logoutModal .modal-content button:last-child {
+  background-color: #6c757d;
+  color: white;
+}
+
+/* Optional fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+  #aiChatbotButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #056014, #0c8c4d);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 9999;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+  }
+  #aiChatbotButton:hover {
+    background: linear-gradient(135deg, #034c10, #056014);
+    transform: scale(1.05);
+  }
+  /* 🧠 AI Chat Assistant Modal */
+  #aiModal {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(2, 27, 5, 0.6);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .ai-modal-box {
+    background-color: #ffffff;
+    width: 400px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .ai-modal-header {
+    background: linear-gradient(to right, #056014, #0c8c4d);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .ai-modal-header h3 {
+    font-size: 18px;
+    margin: 0;
+  }
+
+  .ai-close {
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+  }
+
+  .ai-chatbox {
+    padding: 20px;
+    flex: 1;
+    overflow-y: auto;
+    background: #f7f7f7;
+  }
+
+  .ai-chatbox .bubble {
+    padding: 10px 14px;
+    margin: 10px 0;
+    max-width: 80%;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.5;
+    display: inline-block;
+    clear: both;
+  }
+
+  .bubble.user {
+    background-color: #c8e6c9;
+    color: #1a4f1a;
+    align-self: flex-end;
+    float: right;
+    border-bottom-right-radius: 0;
+  }
+
+  .bubble.ai {
+    background-color: #e3f2fd;
+    color: #064170;
+    align-self: flex-start;
+    float: left;
+    border-bottom-left-radius: 0;
+  }
+
+  .ai-input-area {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    background: #fff;
+  }
+
+  .ai-input-area textarea {
+    flex: 1;
+    resize: none;
+    height: 45px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-family: inherit;
+    font-size: 14px;
+  }
+
+  .ai-input-area button {
+    background: #056014;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .ai-input-area button:hover {
+    background: #034c10;
+  }
+  .settings-card h2 i {
+  margin-right: 8px;
+  color: #056014;
+}
+.settings-card p {
+  margin: 8px 0 16px;
+}
+.settings-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 30px;
+  padding: 40px 30px;
+  max-width: 1300px;
+  margin: auto;
+}
+
+.settings-card {
+  background: linear-gradient(to bottom right, #ffffff, #f8fdf8);
+  padding: 28px;
+  border-left: 6px solid #056014;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+.settings-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.settings-card h2 {
+  margin-top: 0;
+  color: #034c10;
+  font-size: 20px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.settings-card label {
+  display: block;
+  margin-top: 14px;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.settings-card input[type="text"],
+.settings-card input[type="email"],
+.settings-card input[type="password"],
+.settings-card input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #b5b5b5;
+  border-radius: 6px;
+  margin-top: 6px;
+  transition: border-color 0.3s;
+}
+
+.settings-card input:focus {
+  border-color: #056014;
+  outline: none;
+}
+
+.settings-card input[type="checkbox"] {
+  margin-right: 8px;
+  transform: scale(1.1);
+}
+
+.settings-card button {
+  margin-top: 20px;
+  background-color: #056014;
+  color: white;
+  padding: 12px 22px;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.settings-card button:hover {
+  background-color: #034c10;
+}
+
+#chatbotModal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: center;
+}
+
+#chatbotModal .modal-content {
+  background: linear-gradient(to bottom right, #f8fff8, #eaf6ea);
+  border-radius: 20px;
+  padding: 30px 40px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+#chatbotModal .modal-content h3 {
+  font-size: 22px;
+  color: #0b6c25;
+  margin-bottom: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#chatbotModal .modal-content h3::before {
+  content: "🧑‍💼";
+  font-size: 24px;
+}
+
+#chatbotModal .modal-content label {
+  font-weight: bold;
+  display: block;
+  margin: 10px 0 6px;
+}
+
+#chatbotModal select,
+#chatbotModal textarea {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  font-family: 'Segoe UI', sans-serif;
+  box-sizing: border-box;
+}
+
+#chatbotModal textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+#chatbotModal button {
+  padding: 12px 24px;
+  background: linear-gradient(to right, #056014, #0c8c4d);
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  display: block;
+  margin: 0 auto; /* center the button */
+}
+
+#chatbotModal button:hover {
+  background: #034c10;
+}
+
+#chatbotModal .close {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  font-size: 22px;
+  color: #444;
+  cursor: pointer;
+}
+
+#chatBox {
+  max-height: 180px;
+  overflow-y: auto;
+  background: #f4f4f4;
+  padding: 10px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+
+
+

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CM Dashboard - Settings</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="setting.css">
+</head>
+<body>
+  <h1 class="main-header">⚙️ User Settings Panel</h1>
+
+<div class="header-top">
+  <div class="header-left">   
+    <img src="https://img.onmanorama.com/content/dam/mm/en/kerala/top-news/images/2024/1/29/kerala-government-ls.jpg" alt="Kerala Government Logo" />
+    <div class="title-text">
+      <h1>Kerala Govt. Dashboard</h1>
+      <p>Government of Kerala</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="time">
+      <div id="currentDate">Date</div>
+      <div id="currentTime">Time</div>
+    </div>
+    <div class="notif">
+      <i class="fas fa-bell"></i>
+      <div class="dot">3</div>
+    </div>
+    <div class="profile">
+      <!-- <img src="https://www.ksie.net/management_images/VR19019_9447366193_.jpg" alt="MD Kerala profile photo" /> -->
+    </div>
+    <div class="logout" onclick="openLogoutModal()">
+      <i class="fas fa-sign-out-alt"></i>
+    </div>
+  </div>
+</div>
+
+  <div class="sidebar">
+    <ul>
+      <li onclick="location.href='md_dashboard.html'"><i class="fas fa-chart-line"></i><span>Dashboard</span></li>
+      <li onclick="location.href='development.html'"><i class="fas fa-building"></i><span>Project analysis</span></li>
+      <li onclick="location.href='mediagallary.html'"><i class="fas fa-photo-video"></i><span>Media Gallery</span></li>
+      <li onclick="location.href='report-analyticsmd.html'"><i class="fas fa-chart-pie"></i><span>Report & Analytics</span></li>
+      <li onclick="openDocumentUploadModal()">
+  <i class="fas fa-file-upload"></i>
+  <span>Upload Documents</span>
+</li>
+      <li onclick="location.href='setting.html'"><i class="fas fa-cog"></i><span>Settings</span></li>
+           <li onclick="toggleChatbot()">
+  <i class="fas fa-comments"></i>
+  <span>Chat with DMs</span>
+</li>
+      <li onclick="openLogoutModal()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></li>
+
+
+
+    </ul>
+  </div>
+<div class="dashboard">
+  <!-- 👤 Profile Management with Photo -->
+<div class="settings-card">
+  <h2><i class="fas fa-user-circle"></i> Profile Management</h2>
+
+  <!-- Profile Image Preview -->
+ <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 15px;">
+  <img id="profilePreview" src="https://www.ksie.net/management_images/VR19019_9447366193_.jpg" alt="Profile Photo"
+       style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #056014;" />
+  <div>
+    <label for="profilePhotoInput" style="display: block; margin-bottom: 6px; font-weight: 500;">Upload Profile Photo:</label>
+    <input type="file" accept="image/*" id="profilePhotoInput" />
+  </div>
+</div>
+
+
+  <label>Officer Name:</label>
+  <input type="text" placeholder="e.g., Shri. Anil Kumar, IAS">
+
+  <label>Official Email:</label>
+  <input type="email" placeholder="e.g., anil.kumar@kerala.gov.in">
+
+  <label>Department:</label>
+  <input type="text" placeholder="e.g., District Administration">
+
+  <button>Update Profile</button>
+</div>
+
+
+  <!-- 🔒 Password Reset -->
+  <div class="settings-card">
+    <h2><i class="fas fa-key"></i> Password & Security</h2>
+    <label>Current Password:</label>
+    <input type="password" placeholder="********">
+
+    <label>New Password:</label>
+    <input type="password" placeholder="At least 8 characters">
+
+    <label>Confirm New Password:</label>
+    <input type="password" placeholder="Re-enter password">
+
+    <button>Update Password</button>
+  </div>
+
+  <!-- 🔔 Notification Preferences -->
+  <div class="settings-card">
+    <h2><i class="fas fa-bell"></i> Alert Preferences</h2>
+    <label><input type="checkbox" checked> Enable Email Alerts for Project Updates</label>
+    <label><input type="checkbox"> Enable SMS Alerts on Budget Changes</label>
+    <label><input type="checkbox" checked> Enable Monthly Performance Summary</label>
+
+    <button>Save Preferences</button>
+  </div>
+
+  <!-- 🏛️ Governance Mode -->
+  <div class="settings-card">
+    <h2><i class="fas fa-cogs"></i> Governance Mode</h2>
+    <label><input type="checkbox"> Enable Audit Mode</label>
+    <label><input type="checkbox" checked> Show District Comparison</label>
+    <label><input type="checkbox"> Enable Public Summary Access</label>
+
+    <button>Apply Settings</button>
+  </div>
+
+  <!-- 📁 Data Backup -->
+  <div class="settings-card">
+    <h2><i class="fas fa-database"></i> Data & Backup</h2>
+    <p style="font-size: 0.95em; color: #555;">Secure your data with scheduled backups.</p>
+    <label><input type="checkbox" checked> Enable Auto Backup (Daily)</label>
+    <label><input type="checkbox"> Receive Backup Reports via Email</label>
+    <button>Backup Now</button>
+  </div>
+</div>
+
+  </div>
+  <!-- Logout Confirmation Modal -->
+<div id="logoutModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeLogoutModal()">&times;</span>
+    <h3>Are you sure you want to logout?</h3>
+    <button onclick="confirmLogout()">Logout</button>
+    <button onclick="closeLogoutModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- Chatbot Modal -->
+<div id="chatbotModal" class="modal">
+  <div class="modal-content" style="max-width: 500px;">
+    <span class="close" onclick="toggleChatbot()">&times;</span>
+    <h3>🗣️ Chat with District DM</h3>
+    <label for="dmSelect">Choose District:</label>
+    <select id="dmSelect" style="width: 100%; margin-bottom: 10px;"></select>
+    <div style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;" id="chatBox"></div>
+    <textarea id="userMessage" placeholder="Type your message..."></textarea>
+    <div class="send-wrapper">
+      <button onclick="sendMessage()">Send Message</button>
+    </div>
+  </div>
+</div>
+
+<button id="aiChatbotButton" onclick="openAIChatModal()" title="Ask AI">🤖 AI Help</button>
+
+<!-- AI Assistant Modal -->
+<div id="aiModal" class="modal">
+  <div class="ai-modal-box">
+    <div class="ai-modal-header">
+      <h3>🤖 Kerala AI Assistant</h3>
+      <span class="ai-close" onclick="closeAIChatModal()">&times;</span>
+    </div>
+    <div id="aiChatBox" class="ai-chatbox"></div>
+    <div class="ai-input-area">
+      <textarea id="aiUserMessage" placeholder="Ask something..."></textarea>
+      <button onclick="sendAIMessage()">Send</button>
+    </div>
+  </div>
+</div>
+
+
+<script src="setting.js"></script>
+</body>
+</html>

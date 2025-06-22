@@ -1,0 +1,17 @@
+[
+  {
+    "sender": "vendor",
+    "message": "Hello",
+    "timestamp": "12:49 pm"
+  },
+  {
+    "sender": "vendor",
+    "message": "Mujhe aapse meeting karana hai",
+    "timestamp": "01:25 pm"
+  },
+  {
+    "sender": "dm",
+    "message": "Accha thik hai karte hai",
+    "timestamp": "01:25 pm"
+  }
+]

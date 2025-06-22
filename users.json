@@ -1,0 +1,42 @@
+[
+  {
+    "role": "cm",
+    "username": "AshishSir",
+    "password": "1234"
+  },
+  {
+    "role": "constructor",
+    "username": "Nikhil",
+    "password": "5678"
+  },
+  {
+    "role": "dm",
+    "username": "Vivek Yadav",
+    "password": "7890"
+  },
+  {
+    "role": "cm",
+    "username": "Adarsh",
+    "password": "765432"
+  },
+  {
+    "role": "dm",
+    "username": "Vishal",
+    "password": "80908090"
+  },
+  {
+    "role": "dm",
+    "username": "Nikhil Dubey",
+    "password": "80908090"
+  },
+  {
+    "role": "md",
+    "username": "Vishal",
+    "password": "1234"
+  },
+  {
+    "role": "md",
+    "username": "NikhilDubey",
+    "password": "12345"
+  }
+]

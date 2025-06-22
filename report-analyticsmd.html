@@ -1,0 +1,240 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="report-analysticmd.css">
+  <link rel="stylesheet" href="test.css">
+   
+ </head>
+ <body>
+  <!-- Navigation Bar -->
+<div class="header-top">
+  <div class="header-left">
+    <img src="https://img.onmanorama.com/content/dam/mm/en/kerala/top-news/images/2024/1/29/kerala-government-ls.jpg" alt="Kerala Government Logo" />
+    <div class="title-text">
+      <h1>Kerala Govt. Dashboard</h1>
+      <p>Government of Kerala</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="time">
+      <div id="currentDate">Date</div>
+      <div id="currentTime">Time</div>
+    </div>
+    <div class="notif">
+      <i class="fas fa-bell"></i>
+      <div class="dot">3</div>
+    </div>
+    <div class="profile">
+       <img src="https://www.ksie.net/management_images/VR19019_9447366193_.jpg" alt="MD Kerala profile photo" /> 
+    </div>
+    <div class="logout" onclick="openLogoutModal()">
+      <i class="fas fa-sign-out-alt"></i>
+    </div>
+  </div>
+</div>
+
+  <div class="sidebar">
+    <ul>
+      <li onclick="location.href='md_dashboard.html'"><i class="fas fa-chart-line"></i><span>Dashboard</span></li>
+      <li onclick="location.href='development.html'"><i class="fas fa-building"></i><span>Project analysis</span></li>
+      <li onclick="location.href='mediagallary.html'"><i class="fas fa-photo-video"></i><span>Media Gallery</span></li>
+      <li onclick="location.href='report-analyticsmd.html'"><i class="fas fa-chart-pie"></i><span>Report & Analytics</span></li>
+      <li onclick="location.href='md_dashboard.html?upload=true'">
+ <i class="fas fa-file-upload"></i>
+  <span>Upload Documents</span>
+</li>
+     <li onclick="location.href='setting.html'"><i class="fas fa-cog"></i><span>Settings</span></li>
+     <li onclick="toggleChatbot()">
+  <i class="fas fa-comments"></i>
+  <span>Chat with DMs</span>
+</li>
+      <li onclick="openLogoutModal()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></li>
+    </ul>
+  </div>
+<div class="main-content">
+   <div class="header">
+    <h1>Managing Director's Project Analytics</h1>
+    <span>Kerala Government's  Report Analysis</span>
+  </div>
+
+<div class="filter-card">
+  <div class="filter-title">
+    <i class="fas fa-filter"></i> <span>Project Filters</span>
+  </div>
+  <div class="filter-grid">
+    <div class="filter-group">
+      <label for="districtFilter">District</label>
+      <select id="districtFilter">
+        <option value="All">All Districts</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="departmentFilter">Department</label>
+      <select id="departmentFilter">
+        <option value="All">All Departments</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="statusFilter">Status</label>
+      <select id="statusFilter">
+        <option value="All">All Status</option>
+        <option value="md pending">MD Pending</option>
+        <option value="md verified">MD Verified</option>
+        <option value="approved">Approved</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="searchInput">Search</label>
+      <input type="text" id="searchInput" placeholder="🔍 Search projects..." />
+    </div>
+  </div>
+</div>
+
+ <div style="display: flex; justify-content: flex-end; margin-top: 20px; margin-right: 10px;">
+  <button id="projectTrackerBtn" style="padding: 8px 16px; background-color: green; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 14px;">
+    Project Tracker
+  </button>
+</div>
+
+  <div class="section-title">Filtered Reports</div>
+  <div class="cards-container" id="reportsContainer"></div>
+
+ <div class="export-buttons">
+  <button onclick="downloadExcel()">📥 Download Excel</button>
+  <button onclick="downloadPDF()">📄 Download PDF</button>
+</div>
+
+
+
+  <div class="section-title" id="project-tracker">Track Project Progress</div>
+
+  <div class="track-container">
+    <label for="projectTracker" class="visually-hidden">Project Tracker</label>
+    <select id="projectTracker" title="Project Tracker">
+      <option value="All">Select a Project</option>
+    </select>
+
+<div id="timelineContainer" class="timeline-container"></div>
+
+  <!-- Footer Section -->
+<footer class="kerala-footer">
+  <div class="footer-container">
+    <div class="footer-about">
+      <h3>Kerala Government</h3>
+      <p>
+        Official portal of the Government of Kerala. Bringing transparency, services, and information
+        to the people of Kerala.
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Departments</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Citizen Services</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-contact">
+      <h4>Contact Info</h4>
+      <p><i class="fas fa-map-marker-alt"></i> Secretariat, Thiruvananthapuram, Kerala, India</p>
+      <p><i class="fas fa-phone-alt"></i> +91 471 1234567</p>
+      <p><i class="fas fa-envelope"></i> info@kerala.gov.in</p>
+    </div>
+
+    <div class="footer-social">
+      <h4>Follow Us</h4>
+      <div class="social-icons">
+        <a href="#" aria-label="Facebook" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Twitter" title="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="YouTube" title="YouTube"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 Government of Kerala. All Rights Reserved.</p>
+  </div>
+  <div id="logoutModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeLogoutModal()">&times;</span>
+    <h3>Are you sure you want to logout?</h3>
+    <button onclick="confirmLogout()">Logout</button>
+    <button onclick="closeLogoutModal()">Cancel</button>
+  </div>
+</div>
+</footer>
+
+   <script src="report-analyticsmd.js"></script>
+   <!-- Include libraries for Excel & PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  document.getElementById('projectTrackerBtn').addEventListener('click', function () {
+    const trackerSection = document.getElementById('project-tracker');
+    if (trackerSection) {
+      trackerSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+</script>
+<!--here is the code of buttons-->
+<!-- View Details Modal -->
+<div id="viewModal" class="modal hidden" onclick="closePopup(event, 'viewModal')">
+  <div class="modal-box" onclick="event.stopPropagation()" id="viewModalContent"></div>
+</div>
+
+<!-- Workflow History Modal -->
+<div id="historyModal" class="modal hidden" onclick="closePopup(event, 'historyModal')">
+  <div class="modal-box" onclick="event.stopPropagation()" id="historyModalContent"></div>
+</div>
+
+<!-- Update Report Modal -->
+<div id="updateModal" class="modal hidden" onclick="closePopup(event, 'updateModal')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <h3>Update Report</h3>
+    <form id="updateForm">
+      <label>Project Name:</label>
+      <input type="text" id="updateProject" required placeholder="Enter project name" title="Enter the project name"><br>
+      <label>Budget (₹):</label>
+      <input type="number" id="updateBudget" required placeholder="Enter budget amount" title="Enter the budget amount"><br>
+      <label>Requested Amount (₹):</label>
+      <input type="number" id="updateRequested" required placeholder="Enter requested amount" title="Enter the requested amount"><br>
+      <label>Last Date:</label>
+      <input type="date" id="updateLastDate" required placeholder="Select last date" title="Select the last date"><br><br>
+      <button type="submit" class="btn success">💾 Save Changes</button>
+    </form>
+  </div>
+</div>
+<button id="aiChatbotButton" onclick="openAIChatModal()" title="Ask AI">🤖 AI Help</button>
+
+<!-- AI Assistant Modal -->
+<div id="aiModal" class="modal">
+  <div class="ai-modal-box">
+    <div class="ai-modal-header">
+      <h3>🤖 Kerala AI Assistant</h3>
+      <span class="ai-close" onclick="closeAIChatModal()">&times;</span>
+    </div>
+    <div id="aiChatBox" class="ai-chatbox"></div>
+    <div class="ai-input-area">
+      <textarea id="aiUserMessage" placeholder="Ask something..."></textarea>
+      <button onclick="sendAIMessage()">Send</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+ </body>
+ </html>

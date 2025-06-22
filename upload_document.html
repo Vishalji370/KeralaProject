@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document Upload - Kerala Dashboard</title>
+  <link rel="stylesheet" href="md_dashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .upload-container {
+      max-width: 700px;
+      margin: 120px auto 40px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .upload-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #056014;
+    }
+
+    .upload-container label {
+      font-weight: 600;
+      margin-top: 10px;
+      display: block;
+    }
+
+    .upload-container select,
+    .upload-container input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .upload-container button {
+      background: linear-gradient(to right, #056014, #0c8c4d);
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .sidebar:hover ~ .dashboard {
+      margin-left: 220px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ MD Header -->
+  <div class="header-top">
+    <div class="header-left">
+      <img src="https://img.onmanorama.com/content/dam/mm/en/kerala/top-news/images/2024/1/29/kerala-government-ls.jpg" alt="Kerala Government Logo" />
+      <div class="title-text">
+        <h1>Kerala Govt. Dashboard</h1>
+        <span>Government of Kerala</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="time">
+        <div id="currentDate">Date</div>
+        <div id="currentTime">Time</div>
+      </div>
+      <div class="notif">
+        <i class="fas fa-bell"></i><div class="dot">3</div>
+      </div>
+      <div class="profile"></div>
+      <div class="logout"><i class="fas fa-sign-out-alt"></i></div>
+    </div>
+  </div>
+
+  <!-- ✅ Sidebar -->
+  <div class="sidebar">
+    <ul>
+      <li onclick="location.href='md_dashboard.html'"><i class="fas fa-chart-line"></i><span>Dashboard</span></li>
+      <li onclick="location.href='development.html'"><i class="fas fa-building"></i><span>Project Analysis</span></li>
+      <li onclick="location.href='report-analyticsmd.html'"><i class="fas fa-chart-pie"></i><span>Reports</span></li>
+      <li onclick="location.href='document_upload.html'"><i class="fas fa-file-upload"></i><span>Upload Document</span></li>
+    </ul>
+  </div>
+
+  <!-- ✅ Main Dashboard Area -->
+  <div class="dashboard">
+    <div class="upload-container">
+      <h2>📄 Upload District Document</h2>
+      <form id="uploadForm">
+        <label for="districtSelect">Select District:</label>
+        <select id="districtSelect" required>
+          <option value="">-- Select District --</option>
+        </select>
+
+        <label for="departmentSelect">🏢 Select Department:</label>
+        <select id="departmentSelect" required>
+          <option value="">-- Select Department --</option>
+          <option value="Health">Health</option>
+          <option value="Education">Education</option>
+          <option value="Finance">Finance</option>
+          <option value="Agriculture">Agriculture</option>
+        </select>
+
+        <label>📎 Upload Document (PDF/Image):</label>
+        <input type="file" accept=".pdf,.jpg,.png,.jpeg" title="Upload PDF or image document">
+
+        <label>📷 QR Code (simulated):</label>
+        <input type="file" accept="image/*" title="Upload QR code image">
+
+        <label>📸 Capture Photo/Video:</label>
+        <button type="button" onclick="toggleCamera()">Start Camera</button>
+        <video id="cameraPreview" autoplay></video>
+
+        <label>✍️ Upload Digital Signature:</label>
+        <input type="file" accept=".jpg,.png,.jpeg" title="Upload your digital signature (JPG, PNG, JPEG)" placeholder="Upload digital signature">
+
+        <button type="submit">🚀 Submit for Approval</button>
+      </form>
+
+      <p id="uploadStatus" style="text-align:center; margin-top: 20px; color: green; font-weight: bold;"></p>
+    </div>
+  </div>
+
+  <!-- ✅ Footer -->
+  <footer class="kerala-footer">
+    <div class="footer-container">
+      <div class="footer-about">
+        <h3>Kerala Government</h3>
+        <p>Official portal bringing services and transparency to citizens.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2025 Kerala State Dashboard</div>
+  </footer>
+
+  <!-- ✅ Scripts -->
+  <script>
+    const districts = [
+      "Thiruvananthapuram", "Kollam", "Pathanamthitta", "Alappuzha", "Kottayam",
+      "Idukki", "Ernakulam", "Thrissur", "Palakkad", "Malappuram",
+      "Kozhikode", "Wayanad", "Kannur", "Kasaragod"
+    ];
+    const districtSelect = document.getElementById("districtSelect");
+    districts.forEach(d => {
+      const opt = document.createElement("option");
+      opt.value = d;
+      opt.textContent = d;
+      districtSelect.appendChild(opt);
+    });
+
+    // Time Display
+    setInterval(() => {
+      const now = new Date();
+      document.getElementById("currentDate").textContent = now.toLocaleDateString();
+      document.getElementById("currentTime").textContent = now.toLocaleTimeString();
+    }, 1000);
+
+    // Form Submission
+    document.getElementById("uploadForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      document.getElementById("uploadStatus").textContent = "✅ Document submitted successfully!";
+      this.reset();
+      const video = document.getElementById("cameraPreview");
+      if (video.srcObject) {
+        video.srcObject.getTracks().forEach(track => track.stop());
+        video.style.display = "none";
+      }
+    });
+
+    // Camera handling
+    let cameraStream = null;
+    function toggleCamera() {
+      const video = document.getElementById("cameraPreview");
+      // Ensure playsinline for iOS and compatibility
+      video.setAttribute("playsinline", "");
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+        video.style.display = "none";
+        return;
+      }
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          cameraStream = stream;
+          video.srcObject = stream;
+          video.style.display = "block";
+        })
+        .catch(err => alert("Camera access denied."));
+    }
+  </script>
+</body>
+</html>

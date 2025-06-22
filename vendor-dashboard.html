@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kerala Government - Vendor Dashboard</title>
+    <link rel="stylesheet" href="vendor-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+
+    <!-- Leaflet CSS -->
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="kerala-emblem"></div>
+                <div class="header-text">
+                    <h1>Kerala Government</h1>
+                    <p>Vendor Management Portal</p>
+                </div>
+            </div>
+            <div class="user-section">
+  <div class="notifications">
+    <i class="fas fa-bell"></i>
+    <span class="notification-count">3</span>
+    <ul id="notificationList"></ul>
+  </div>
+  <div class="user-profile">
+    <img src="vendor.png" alt="User">
+    <span>Vendor ID: KL2024001</span>
+  </div>
+  <div class="logout-icon" onclick="showLogoutPopup()" title="Logout">
+    <i class="fas fa-sign-out-alt"></i>
+  </div>
+   </div>
+</div>
+
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Dashboard</h3>
+            <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="menu-item active">
+                <a href="#dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#projects">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>My Projects</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#submissions">
+                    <i class="fas fa-upload"></i>
+                    <span>Submissions</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#documents">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Documents</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#tracker">
+                    <i class="fas fa-route"></i>
+                    <span>Project Tracker</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <li class="menu-item">
+  <a href="javascript:void(0)" onclick="toggleChatBox()">
+    <i class="fas fa-comments"></i>
+    <span>Chat</span>
+  </a>
+</li>
+
+            
+            
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="content-section active">
+            <div class="page-header">
+                <h2>Vendor Dashboard</h2>
+                <p>Welcome back! Track your projects and submissions here.</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+               <div class="stat-card" onclick="filterProjectsByStatus('in-progress')" style="cursor: pointer;">
+  <div class="stat-icon">
+    <i class="fas fa-project-diagram"></i>
+  </div>
+  <div class="stat-info">
+    <h3>1</h3>
+    <p>Active Projects</p>
+  </div>
+</div>
+                 <div class="stat-card" onclick="filterProjectsByStatus('pending')" style="cursor: pointer;">
+    <div class="stat-icon">
+      <i class="fas fa-clock"></i>
+    </div>
+    <div class="stat-info">
+      <h3>1</h3>
+      <p>Pending Reviews</p>
+    </div>
+  </div>
+                <div class="stat-card" onclick="filterProjectsByStatus('approved')" style="cursor: pointer;">
+    <div class="stat-icon">
+      <i class="fas fa-check-circle"></i>
+    </div>
+    <div class="stat-info">
+      <h3>1</h3>
+      <p>Completed</p>
+    </div>
+  </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-upload"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>2</h3>
+                        <p>New Submissions</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Projects -->
+            <div class="dashboard-grid">
+              <!-- 🗺️ All Projects Overview Map -->
+
+
+                <div class="dashboard-card">
+                    <h3>Recent Projects</h3>
+                    <div class="project-list">
+                       <div class="project-item" onclick="openProjectModal('KL-RD-2024-001')">
+  <div class="project-info">
+    <h4>Road Construction - NH47</h4>
+    <p>Project ID: KL-RD-2024-001</p>
+  </div>
+  <div class="project-status approved">Approved</div>
+</div>
+
+
+                       <div class="project-item" onclick="openProjectModal('KL-BR-2024-002')">
+                            <div class="project-info">
+                                <h4>Bridge Maintenance - Periyar</h4>
+                                <p>Project ID: KL-BR-2024-002</p>
+                            </div>
+                            <div class="project-status pending">Under Review</div>
+                        </div>
+                        <div class="project-item" onclick="openProjectModal('KL-ED-2024-003')">
+                            <div class="project-info">
+                                <h4>School Building Construction</h4>
+                                <p>Project ID: KL-ED-2024-003</p>
+                            </div>
+                            <div class="project-status in-progress">In Progress</div>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="dashboard-card">
+                    <h3>Quick Actions</h3>
+                    <div class="quick-actions">
+                        <button class="action-btn" onclick="showSection('submissions')">
+                            <i class="fas fa-plus"></i>
+                            New Submission
+                        </button>
+                        <button class="action-btn" onclick="showSection('tracker')">
+                            <i class="fas fa-search"></i>
+                            Track Project
+                        </button>
+                        <button class="action-btn" onclick="showSection('documents')">
+                            <i class="fas fa-download"></i>
+                            View Documents
+                        </button>
+                    </div>
+                    
+                </div>
+       
+            </div>
+                    <div class="dashboard-card" style="margin-top: 2rem;">
+  <h3>All Project Location On map</h3>
+  <div id="dashboardMap" style="height: 400px; border-radius: 12px; margin-top: 0.5rem;"></div>
+</div>
+                 
+        </section>
+        
+        <!-- Project Detail Modal -->
+<div id="projectDetailModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalProjectTitle">Project Detail</h3>
+      <span class="close-modal" onclick="closeProjectModal()">&times;</span>
+    </div>
+    <div class="modal-body" id="projectDetailBody">
+      <p><strong>Project ID:</strong> <span id="modalProjectId"></span></p>
+      <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+      <p><strong>Description:</strong> <span id="modalDescription"></span></p>
+      <p><strong>Location:</strong> <span id="modalLocation"></span></p>
+      <p><strong>Estimated Cost:</strong> ₹<span id="modalCost"></span></p>
+      <div id="projectMap" style="height: 300px; border-radius: 8px; margin-top: 1rem;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" onclick="downloadProjectDetail()">Download</button>
+      <button class="btn-primary" onclick="closeProjectModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+
+        <!-- My Projects Section -->
+<section id="projects" class="content-section">
+      <div class="page-header">
+          <h2>My Projects</h2>
+        <p>Overview of all your assigned government projects.</p>
+        <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+          <input type="text" id="searchInput" placeholder="Search projects..." style="padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc;" />
+          <label for="statusFilter" class="visually-hidden">Filter by status</label>
+          <select id="statusFilter" class="status-filter-select" title="Filter by status">
+            <option value="all">All Statuses</option>
+            <option value="approved">Approved</option>
+            <option value="in-progress">In Progress</option>
+            <option value="pending">Pending</option>
+          </select>
+        <button class="btn-primary" onclick="exportProjects()">
+          <i class="fas fa-download"></i> Export
+        </button>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <h3>Project List</h3>
+          <div class="project-list" id="projectList">
+            <!-- Project items will be inserted dynamically here -->
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <h3>Key Statistics</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-clipboard-list"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="totalProjects">0</h3>
+                <p>Total Projects</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-spinner"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="inProgress">0</h3>
+                <p>In Progress</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="completed">0</h3>
+                <p>Completed</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+        <!-- Project Tracker Section -->
+        <section id="tracker" class="content-section">
+            <div class="page-header">
+                <h2>Project Tracker</h2>
+                <p>Track your project status through the Kerala Government hierarchy</p>
+            </div>
+
+            <div class="tracker-container">
+                <div class="project-selector">
+                    <label for="projectSelect">Select Project:</label>
+                    <select id="projectSelect" onchange="updateTracker()">
+                        <option value="project1">Road Construction - NH47</option>
+                        <option value="project2">Bridge Maintenance - Periyar</option>
+                        <option value="project3">School Building Construction</option>
+                    </select>
+                </div>
+
+                <div class="hierarchy-tracker">
+                    <div class="tracking-timeline">
+                        <div class="timeline-step completed">
+                            <div class="step-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div class="step-content">
+                                <h4>Vendor Submission</h4>
+                                <p>Submitted on: 15/03/2024</p>
+                                <span class="status-badge completed">Completed</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step completed">
+                            <div class="step-icon">
+                                <i class="fas fa-user-cog"></i>
+                            </div>
+                            <div class="step-content">
+                                <h4>Block Panchayat</h4>
+                                <p>Reviewed on: 18/03/2024</p>
+                                <span class="status-badge completed">Approved</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step active">
+                            <div class="step-icon">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div class="step-content">
+                                <h4>District Magistrate</h4>
+                                <p>Under review since: 20/03/2024</p>
+                                <span class="status-badge pending">Pending</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step">
+                            <div class="step-icon">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <div class="step-content">
+                                <h4>State Secretary</h4>
+                                <p>Awaiting previous approval</p>
+                                <span class="status-badge waiting">Waiting</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step">
+                            <div class="step-icon">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <div class="step-content">
+                                <h4>Managing Director</h4>
+                                <p>Final approval stage</p>
+                                <span class="status-badge waiting">Waiting</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tracking-info">
+                        <div class="info-card">
+                            <h4>Current Status</h4>
+                            <p>Your project is currently under review by the Superintendent Engineer. Expected completion: 2-3 business days.</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>Required Documents</h4>
+                            <ul>
+                                <li><i class="fas fa-check text-success"></i> Technical Specifications</li>
+                                <li><i class="fas fa-check text-success"></i> Cost Estimation</li>
+                                <li><i class="fas fa-times text-danger"></i> Environmental Clearance</li>
+                                <li><i class="fas fa-check text-success"></i> Site Survey Report</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Submissions Section -->
+        <section id="submissions" class="content-section">
+      <div class="page-header">
+        <h2>Project Submissions</h2>
+        <p>Submit new projects and upload verification documents</p>
+        <input type="text" id="submissionSearch" placeholder="Search submissions..." style="margin-top: 1rem; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc;">
+      </div>
+
+      <div class="submission-container">
+        <div class="submission-form">
+                    <h3>New Project Submission</h3>
+                    <form id="projectForm">
+                        <div class="form-group">
+                            <label for="projectTitle">Project Title</label>
+                            <input type="text" id="projectTitle" name="projectTitle" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="projectType">Project Type</label>
+                                <select id="projectType" name="projectType" required>
+                                    <option value="">Select Type</option>
+                                    <option value="construction">Construction</option>
+                                    <option value="maintenance">Maintenance</option>
+                                    <option value="renovation">Renovation</option>
+                                    <option value="infrastructure">Infrastructure</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="estimatedCost">Estimated Cost (₹)</label>
+                                <input type="number" id="estimatedCost" name="estimatedCost" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="projectDescription">Project Description</label>
+                            <textarea id="projectDescription" name="projectDescription" rows="4" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="projectLocation">Location</label>
+                            <input type="text" id="projectLocation" name="projectLocation" required>
+                        </div>
+
+                        <div class="file-upload-section">
+                            <h4>Upload Documents</h4>
+                            <div class="upload-grid">
+                               <div class="upload-box" id="uploadBox1">
+  <i class="fas fa-cloud-upload-alt"></i>
+  <p>Technical Specifications</p>
+  <input type="file" id="uploadInputBox1" accept="image/*,video/*,.pdf,.docx" onchange="handleFileUpload(this, 'uploadBox1')" />
+  <button type="button" class="camera-btn" onclick="openCamera('uploadBox1')">
+    <i class="fas fa-camera"></i>
+  </button>
+</div>
+
+                                <div class="upload-box" id="uploadBox2">
+  <i class="fas fa-cloud-upload-alt"></i>
+  <p>Cost Estimation</p>
+  <input type="file" id="uploadInputBox2" accept="image/*,video/*,.pdf,.docx" onchange="handleFileUpload(this, 'uploadBox2')" />
+  
+  <button type="button" class="camera-btn" onclick="openCamera('uploadBox2')">
+    <i class="fas fa-camera"></i>
+  </button>
+</div>
+
+                                <div class="upload-box" id="uploadBox3">
+  <i class="fas fa-cloud-upload-alt"></i>
+  <p>Site survey report</p>
+  <input type="file" id="uploadInputBox3" accept="image/*,video/*,.pdf,.docx" onchange="handleFileUpload(this, 'uploadBox3')" />
+  
+  <button type="button" class="camera-btn" onclick="openCamera('uploadBox3')">
+    <i class="fas fa-camera"></i>
+  </button>
+</div>
+
+                               <div class="upload-box" id="uploadBox4">
+  <i class="fas fa-cloud-upload-alt"></i>
+  <p>Environmental Clearance</p>
+  <input type="file" id="uploadInputBox4" accept="image/*,video/*,.pdf,.docx" onchange="handleFileUpload(this, 'uploadBox')" />
+  
+  <button type="button" class="camera-btn" onclick="openCamera('uploadBox4')">
+    <i class="fas fa-camera"></i>
+  </button>
+</div>
+
+                                
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            Submit Project
+                        </button>
+                    </form>
+                </div>
+
+                <div class="submission-status">
+          <h3>Recent Submissions</h3>
+          <div class="submission-list" id="submissionList">
+                        <div class="submission-item">
+                            <div class="submission-info">
+                                <h4>Road Construction - NH47</h4>
+                                <p>Submitted: 15/03/2024</p>
+                            </div>
+                            <div class="submission-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 60%;"></div>
+                                </div>
+                                <span>60% Complete</span>
+                            </div>
+                        </div>
+                        <div class="submission-item">
+                            <div class="submission-info">
+                                <h4>Bridge Maintenance</h4>
+                                <p>Submitted: 10/03/2024</p>
+                            </div>
+                            <div class="submission-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 100%;"></div>
+                                </div>
+                                <span>Completed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documents Section -->
+       <section id="documents" class="content-section">
+      <div class="page-header">
+        <h2>Document Management</h2>
+        <p>View and manage all your project documents</p>
+        <input type="text" id="documentSearch" placeholder="Search documents..." style="margin-top: 1rem; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc;">
+      </div>
+
+      <div class="documents-container">
+        <div class="document-filters">
+          <button class="filter-btn active" data-filter="all">All Documents</button>
+          <button class="filter-btn" data-filter="pending">Pending Verification</button>
+          <button class="filter-btn" data-filter="verified">Verified</button>
+          <button class="filter-btn" data-filter="rejected">Rejected</button>
+        </div>
+
+        <div class="documents-grid" id="documentsGrid">
+                    <div class="document-card verified">
+                        <div class="doc-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="doc-info">
+                            <h4>Technical Specifications.pdf</h4>
+                            <p>Project: Road Construction - NH47</p>
+                            <small>Uploaded: 15/03/2024</small>
+                        </div>
+                        <div class="doc-status verified">
+                            <i class="fas fa-check-circle"></i>
+                            Verified
+                        </div>
+                        <div class="doc-actions">
+                            <button class="action-btn-small" title="Download">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="action-btn-small" title="View">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="document-card pending">
+                        <div class="doc-icon">
+                            <i class="fas fa-file-excel"></i>
+                        </div>
+                        <div class="doc-info">
+                            <h4>Cost_Estimation.xlsx</h4>
+                            <p>Project: Bridge Maintenance</p>
+                            <small>Uploaded: 18/03/2024</small>
+                        </div>
+                        <div class="doc-status pending">
+                            <i class="fas fa-clock"></i>
+                            Pending
+                        </div>
+                        <div class="doc-actions">
+                            <button class="action-btn-small" title="Download">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="action-btn-small" title="View">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="document-card rejected">
+                        <div class="doc-icon">
+                            <i class="fas fa-file-word"></i>
+                        </div>
+                        <div class="doc-info">
+                            <h4>Site_Survey_Report.docx</h4>
+                            <p>Project: School Building</p>
+                            <small>Uploaded: 12/03/2024</small>
+                        </div>
+                        <div class="doc-status rejected">
+                            <i class="fas fa-times-circle"></i>
+                            Rejected
+                        </div>
+                        <div class="doc-actions">
+                            <button class="action-btn-small" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn-small" title="Re-upload">
+                                <i class="fas fa-upload"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Profile Section -->
+<section id="profile" class="content-section">
+  <div class="page-header">
+    <h2>Vendor Profile</h2>
+    <p>View and edit your profile information</p>
+  </div>
+
+  <div class="dashboard-grid">
+    <div class="dashboard-card">
+      <h3>Personal Information</h3>
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <img id="profilePic" src="vendor.png" alt="Profile Photo" style="border-radius: 50%; width: 100px; height: 100px; border: 2px solid #ccc;">
+        <input type="file" id="uploadPhoto" accept="image/*" style="display: block; margin: 0.5rem auto;" />
+      </div>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="nameField" value="Vishal Nair" />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="emailField" value="vishal.nair@example.com" />
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="text" id="phoneField" value="+91 9876543210" />
+      </div>
+      <div class="form-group">
+        <label>Organization</label>
+        <input type="text" id="orgField" value="Kerala Infra Ltd" />
+      </div>
+    </div>
+
+    <div class="dashboard-card">
+      <h3>Account Details</h3>
+      <div class="form-group">
+        <label for="vendorIdField">Vendor ID</label>
+        <input type="text" id="vendorIdField" value="KL2024001" readonly title="Your Vendor ID" />
+      </div>
+      <div class="form-group">
+        <label>Registration Date</label>
+        <input type="text" value="01/02/2024" readonly title="Registration Date" placeholder="Registration Date" />
+      </div>
+      <div class="form-group">
+        <label for="statusField">Status</label>
+        <input type="text" id="statusField" class="status-active-input" value="Active" readonly title="Account Status" placeholder="Active" />
+      </div>
+      <div class="form-group">
+        <label>Verified</label>
+        <input type="text" value="Yes" readonly title="Verified" />
+      </div>
+      <button class="btn-primary" style="margin-top: 1.5rem; width: 100%;" onclick="saveProfileDemo()">
+        <i class="fas fa-save"></i> Save Changes
+      </button>
+ <button class="btn-primary" style="margin-top: 1rem; width: 100%; background: linear-gradient(135deg, #e74c3c, #c0392b);" onclick="showLogoutPopup()">
+  <i class="fas fa-sign-out-alt"></i> Logout
+</button>
+
+    </div>
+  </div>
+</section>
+
+
+        <!-- Footer -->
+    
+
+    </main>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Success!</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <i class="fas fa-check-circle success-icon"></i>
+                <p>Your project has been submitted successfully!</p>
+                <p>Project ID: <strong id="generatedProjectId"></strong></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" onclick="closeModal()">OK</button>
+            </div>
+        </div>
+    </div>
+    <!-- Logout Confirmation Modal -->
+<div id="logoutModal" class="modal">
+  <div class="modal-content" style="max-width: 400px;">
+    <div class="modal-header">
+      <h3>Confirm Logout</h3>
+      <span class="close-modal" onclick="closeLogoutPopup()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p>Are you sure you want to logout?</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" onclick="confirmLogout()">Yes, Logout</button>
+      <button class="btn-primary" onclick="closeLogoutPopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+<!-- All Projects Map Modal -->
+<div id="allProjectsMapModal" class="modal">
+  <div class="modal-content" style="max-width: 800px;">
+    <div class="modal-header">
+      <h3>All Projects Map</h3>
+      <span class="close-modal" onclick="closeAllProjectsMapModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <div id="allProjectsMap" style="height: 500px; border-radius: 8px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 🔵 Real-Time Chatbox -->
+<div id="chatWidget" class="chat-widget">
+  <div class="chat-header" onclick="toggleChatBox()">
+    <i class="fas fa-comments"></i>
+    <span>Chat with Counterpart</span>
+    <i class="fas fa-times close-icon" onclick="toggleChatBox(event)"></i>
+  </div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chat-input">
+    <input type="text" id="chatMessageInput" placeholder="Type a message..." />
+    <button onclick="sendMessage()" title="Send Message"><i class="fas fa-paper-plane"></i></button>
+  </div>
+</div>
+<!-- Chat Typing Status -->
+<div id="typingStatus" style="font-size: 0.75rem; color: #555; text-align: center; padding: 0.25rem;"></div>
+
+
+<!-- Webcam Modal -->
+<div id="cameraModal" class="modal">
+  <div class="modal-content" style="max-width: 500px;">
+    <div class="modal-header">
+      <h3>Capture Image</h3>
+      <span class="close-modal" onclick="closeCameraModal()">&times;</span>
+    </div>
+    <div class="modal-body" style="text-align: center;">
+      <video id="video" width="100%" autoplay playsinline></video>
+      <canvas id="snapshot" style="display:none;"></canvas>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" onclick="capturePhoto()">📸 Capture</button>
+      <button class="btn-primary" onclick="closeCameraModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Chatbot Button -->
+<button onclick="openChatbotModal()" class="chatbot-btn">💬 Chatbot</button>
+
+<!-- Chatbot Modal -->
+<div id="chatbotModal" class="chatbot-modal hidden">
+  <div class="chatbot-modal-content">
+    <button class="close-chatbot" onclick="closeChatbotModal()">&times;</button>
+    <iframe src="ai-assistant.html" frameborder="0"></iframe>
+
+  </div>
+</div>
+<!-- Floating Chatbot Button -->
+
+
+
+
+    <script src="vendor-script.js"></script>
+     <script>
+    const dummyProjects = [
+      {
+        title: 'Hospital Renovation - Alappuzha',
+        id: 'KL-HR-2024-005',
+        status: 'approved',
+        image: 'hopital.jpeg'
+      },
+      {
+        title: 'Drainage Improvement - Kochi',
+        id: 'KL-DR-2024-007',
+        status: 'in-progress',
+        image: 'hopital.jpeg'
+      },
+      {
+        title: 'Rural Road Widening',
+        id: 'KL-RR-2024-009',
+        status: 'pending',
+        image: 'hopital.jpeg'
+      }
+      
+    ];
+
+    function loadProjects() {
+      const projectList = document.getElementById('projectList');
+      const search = document.getElementById('searchInput')?.value.toLowerCase() || '';
+      const filter = document.getElementById('statusFilter')?.value || 'all';
+      projectList.innerHTML = '';
+
+      let total = 0, inProgress = 0, completed = 0;
+
+      dummyProjects.forEach(project => {
+        const matchSearch = project.title.toLowerCase().includes(search) || project.id.toLowerCase().includes(search);
+        const matchFilter = filter === 'all' || project.status === filter;
+
+        if (matchSearch && matchFilter) {
+          total++;
+          if (project.status === 'in-progress') inProgress++;
+          if (project.status === 'approved') completed++;
+
+          const div = document.createElement('div');
+          div.className = 'project-item';
+          div.innerHTML = `
+            <div class="project-info">
+              <img src="${project.image}" alt="" style="width: 100px; height: auto; margin-bottom: 6px; border-radius: 6px;">
+              <h4>${project.title}</h4>
+              <p>Project ID: ${project.id}</p>
+            </div>
+            <div class="project-status ${project.status}">${statusText(project.status)}</div>
+          `;
+          projectList.appendChild(div);
+        }
+      });
+
+      document.getElementById('totalProjects').textContent = total;
+      document.getElementById('inProgress').textContent = inProgress;
+      document.getElementById('completed').textContent = completed;
+    }
+
+    function statusText(status) {
+      if (status === 'approved') return 'Approved';
+      if (status === 'pending') return 'Pending';
+      return 'In Progress';
+    }
+
+    function exportProjects() {
+      const rows = [
+        ['Title', 'Project ID', 'Status'],
+        ...dummyProjects.map(p => [p.title, p.id, statusText(p.status)])
+      ];
+
+      const csvContent = 'data:text/csv;charset=utf-8,' +
+        rows.map(e => e.join(',')).join('\n');
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', 'my_projects.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadProjects();
+      document.getElementById('searchInput').addEventListener('input', loadProjects);
+      document.getElementById('statusFilter').addEventListener('change', loadProjects);
+    });
+  </script>
+  <script>
+    const dummySubmissions = [
+      { title: 'Road Construction - NH47', date: '15/03/2024', progress: 60 },
+      { title: 'Bridge Maintenance', date: '10/03/2024', progress: 100 }
+    ];
+
+    function loadSubmissions() {
+      const container = document.getElementById('submissionList');
+      const search = document.getElementById('submissionSearch').value.toLowerCase();
+      container.innerHTML = '';
+
+      dummySubmissions.filter(s => s.title.toLowerCase().includes(search)).forEach(sub => {
+        const div = document.createElement('div');
+        div.className = 'submission-item';
+        div.innerHTML = `
+          <div class="submission-info">
+            <h4>${sub.title}</h4>
+            <p>Submitted: ${sub.date}</p>
+          </div>
+          <div class="submission-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${sub.progress}%"></div>
+            </div>
+            <span>${sub.progress < 100 ? sub.progress + '% Complete' : 'Completed'}</span>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    const dummyDocs = [
+      { name: 'Technical Specifications.pdf', project: 'Road Construction - NH47', status: 'verified', date: '15/03/2024' },
+      { name: 'Cost_Estimation.xlsx', project: 'Bridge Maintenance', status: 'pending', date: '18/03/2024' },
+      { name: 'Site_Survey_Report.docx', project: 'School Building', status: 'rejected', date: '12/03/2024' }
+    ];
+
+    function loadDocuments() {
+      const grid = document.getElementById('documentsGrid');
+      const docSearch = document.getElementById('documentSearch').value.toLowerCase();
+      const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+      grid.innerHTML = '';
+
+      dummyDocs.forEach(doc => {
+        const matchesSearch = doc.name.toLowerCase().includes(docSearch) || doc.project.toLowerCase().includes(docSearch);
+        const matchesFilter = activeFilter === 'all' || doc.status === activeFilter;
+
+        if (matchesSearch && matchesFilter) {
+          const div = document.createElement('div');
+          div.className = `document-card ${doc.status}`;
+          div.innerHTML = `
+            <div class="doc-icon">
+              <i class="fas fa-file-${doc.name.includes('.pdf') ? 'pdf' : doc.name.includes('.doc') ? 'word' : 'excel'}"></i>
+            </div>
+            <div class="doc-info">
+              <h4>${doc.name}</h4>
+              <p>Project: ${doc.project}</p>
+              <small>Uploaded: ${doc.date}</small>
+            </div>
+            <div class="doc-status ${doc.status}">
+              <i class="fas fa-${doc.status === 'verified' ? 'check' : doc.status === 'pending' ? 'clock' : 'times'}-circle"></i>
+              ${doc.status.charAt(0).toUpperCase() + doc.status.slice(1)}
+            </div>
+            <div class="doc-actions">
+              <button class="action-btn-small" title="Download"><i class="fas fa-download"></i></button>
+              <button class="action-btn-small" title="View"><i class="fas fa-eye"></i></button>
+            </div>
+          `;
+          grid.appendChild(div);
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Projects filters already setup
+      loadSubmissions();
+      loadDocuments();
+
+      document.getElementById('submissionSearch')?.addEventListener('input', loadSubmissions);
+      document.getElementById('documentSearch')?.addEventListener('input', loadDocuments);
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          loadDocuments();
+        });
+      });
+    });
+    // profile update
+     function saveProfileDemo() {
+    const name = document.getElementById('nameField').value;
+    const email = document.getElementById('emailField').value;
+    const phone = document.getElementById('phoneField').value;
+    const org = document.getElementById('orgField').value;
+    alert(`Profile saved (demo):\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nOrganization: ${org}`);
+  }
+
+  document.getElementById('uploadPhoto').addEventListener('change', function (e) {
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      document.getElementById('profilePic').src = event.target.result;
+    }
+    if (e.target.files[0]) reader.readAsDataURL(e.target.files[0]);
+  });
+
+  function filterProjectsByStatus(status) {
+    showSection('projects');
+    const filterDropdown = document.getElementById('statusFilter');
+    if (filterDropdown) {
+      filterDropdown.value = status;
+      loadProjects();
+    }
+  }
+  </script>
+</body>
+</html>

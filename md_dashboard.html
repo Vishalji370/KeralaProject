@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>District Performance Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="md_dashboard.css" />
+  <style>
+    body { font-family: Arial; padding: 20px;  }
+    button { padding: 10px 16px; margin: 10px 5px; cursor: pointer; }
+    textarea { width: 300px; height: 80px; margin-bottom: 10px; }
+    .box { display: none; margin-top: 10px; }
+    .confirmation, .seen, .indicator { margin-top: 10px; font-weight: bold; }
+    .indicator { color: red; }
+    .seen { color: green; }
+    .history { margin-top: 20px; }
+    .message-item { margin: 8px 0; }
+    .delete-btn {
+      margin-left: 10px;
+      color: red;
+      cursor: pointer;
+      font-size: 12px;
+      background: none;
+      border: none;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      margin-left:  -60px;
+    }
+  
+
+    h2 {
+      margin-bottom: 25px;
+      font-size: 28px;
+    }
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-right: 6px;
+    }
+
+    select {
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    #chartsContainer {
+      width: 100%;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 620px !important;
+      background: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      display: none;
+      margin-bottom: 30px;
+    }
+    #chatbotModal {
+
+  justify-content: center;
+  align-items: center;
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+
+  </style>
+</head>
+
+<body>
+<div class="header-top">
+  <div class="header-left">   
+    <img src="https://img.onmanorama.com/content/dam/mm/en/kerala/top-news/images/2024/1/29/kerala-government-ls.jpg" alt="Kerala Government Logo" />
+    <div class="title-text">
+      <h1>Kerala Govt. Dashboard</h1>
+      <p>Government of Kerala</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="time">
+      <div id="currentDate">Date</div>
+      <div id="currentTime">Time</div>
+    </div>
+    <div class="notif">
+      <i class="fas fa-bell"></i>
+      <div class="dot">3</div>
+    </div>
+    <div class="profile">
+      <!-- <img src="https://www.ksie.net/management_images/VR19019_9447366193_.jpg" alt="MD Kerala profile photo" /> -->
+    </div>
+    <div class="logout" onclick="openLogoutModal()">
+      <i class="fas fa-sign-out-alt"></i>
+    </div>
+  </div>
+</div>
+  <!-- Navigation Bar -->
+<!-- Top Header -->
+
+<div class="wrapper">
+  <div class="dashboard">
+<div class="top-banner">
+  <div>
+    <h2>District Performance Dashboard</h2>
+    <div class="meta">Real-time insights into district-wise project performance</div>
+    <div class="meta">Last updated: <span id="lastUpdated">6/19/2025, 11:19:19 AM</span></div>
+  </div>
+  <div class="user">
+    <img src="https://www.ksie.net/management_images/VR19019_9447366193_.jpg" alt="MD Kerala profile photo" />
+    <h4>Welcome<br />Shri. Anil Kumar (MD Kerala)</h4>
+  </div>
+
+
+
+  <!-- Incoming Modal -->
+  <div id="incomingBox" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeIncomingBox()">&times;</span>
+      <h3>📥 New Message Received</h3>
+      <p id="incomingText"></p>
+    </div>
+  </div>
+    <p class="location"></p>
+  </div>
+
+  <div class="sidebar">
+    <ul>
+      <li onclick="location.href='md_dashboard.html'"><i class="fas fa-chart-line"></i><span>Dashboard</span></li>
+      <li onclick="location.href='development.html'"><i class="fas fa-building"></i><span>Project analysis</span></li>
+      <li onclick="location.href='mediagallary.html'"><i class="fas fa-photo-video"></i><span>Media Gallery</span></li>
+      <li onclick="location.href='report-analyticsmd.html'"><i class="fas fa-chart-pie"></i><span>Report & Analytics</span></li>
+      <li onclick="openDocumentUploadModal()">
+  <i class="fas fa-file-upload"></i>
+  <span>Upload Documents</span>
+</li>
+      <li onclick="location.href='setting.html'"><i class="fas fa-cog"></i><span>Settings</span></li>
+  
+
+    <li onclick="toggleChatbot()">
+  <i class="fas fa-comments"></i>
+  <span>Chat with DM</span>
+</li>
+
+      <li onclick="openLogoutModal()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></li>
+      
+    </ul>
+  </div>
+
+  <div class="dashboard1">
+    <h1>District Performance Dashboard</h1>
+    <p class="subhead">Real-time insights into district-wise project performance</p>
+  </div>
+
+ <div class="card-container summary-cards">
+  <div class="summary-card total">
+    <div class="icon">📊</div>
+    <div class="info">
+      <h4>Total Districts</h4>
+      <p id="totalDistricts">14</p>
+    </div>
+  </div>
+  <div class="summary-card good">
+    <div class="icon">📊</div>
+    <div class="info">
+      <h4>Good Performance</h4>
+      <p id="goodCount">6</p>
+    </div>
+  </div>
+  <div class="summary-card average">
+    <div class="icon">📈</div>
+    <div class="info">
+      <h4>Average Performance</h4>
+      <p id="avgCount">5</p>
+    </div>
+  </div>
+  <div class="summary-card poor">
+    <div class="icon">📉</div>
+    <div class="info">
+      <h4>Poor Performance</h4>
+      <p id="poorCount">3</p>
+    </div>
+  </div>
+</div>
+
+
+ <div class="container">
+    <h2>Kerala District Performance Dashboard</h2>
+
+    <div class="filters">
+      <div>
+        <label for="districtSelect">District:</label>
+        <select id="districtSelect">
+          <option value="All">All</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="departmentSelect">Department:</label>
+        <select id="departmentSelect">
+          <option value="All">All</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="graphSelect">Graph:</label>
+        <select id="graphSelect">
+          <option value="Bar">Bar Chart</option>
+          <option value="Pie">Pie Chart</option>
+          <option value="Line">Line Chart</option>
+          <option value="Area">Area Chart</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="chartsContainer">
+      <canvas id="barChart"></canvas>
+      <canvas id="pieChart"></canvas>
+      <canvas id="lineChart"></canvas>
+      <canvas id="areaChart"></canvas>
+    </div>
+
+  </select>
+<!--districts-->
+<section class="insights-panel">
+  <h2 class="insights-heading">📊 Performance Insights</h2>
+  <div class="insight-blocks">
+    <div class="insight-card">
+      <h3>⬇️ Top 3 Falling Districts</h3>
+      <ul>
+        <li>Kasaragod <span class="trend poor">↓ -12%</span></li>
+        <li>Alappuzha <span class="trend poor">↓ -9%</span></li>
+        <li>Kollam <span class="trend poor">↓ -6%</span></li>
+      </ul>
+    </div>
+
+    <div class="insight-card">
+      <h3>🚨 Districts Needing Attention</h3>
+      <ul>
+        <li>Wayanad - Budget Delay</li>
+        <li>Ernakulam - Low Completion Rate</li>
+        <li>Pathanamthitta - Verification Pending</li>
+      </ul>
+    </div>
+
+    <div class="insight-card">
+      <h3>🌟 Most Improved This Week</h3>
+      <ul>
+        <li>Thrissur <span class="trend good">↑ +14%</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+   <section class="district-dashboard">
+  <h2>District-wise Performance Overview</h2>
+  <div class="district-grid">
+
+    <!-- Thiruvananthapuram -->
+    <a href="md_dm_tiruvanantpuram.html" class="district-card">
+      <div class="card-header">
+        <h3>Thiruvananthapuram</h3>
+        <span class="tag good">Good</span>
+      </div>
+      <p><br></p>
+      <p>Completion Rate <strong>91%</strong></p>
+      <div class="bar"><div class="progress" style="width: 91%"></div></div>
+      <div class="card-stats">
+        <div><i class="fas fa-building"></i><p>Total Projects<br><strong>50</strong></p></div>
+        <div class="completed"><i class="fas fa-check-circle"></i><p>Completed<br><strong>46</strong></p></div>
+      </div>
+      <div class="meta">
+        <p><i class="fas fa-calendar-alt"></i> Updated: 2024-06-01</p>
+        <p>Budget: <strong>$105M</strong></p>
+        <p>Performance Trend: <span class="trend good">↑ Improving</span></p>
+      </div>
+    </a>
+
+    <!-- Kollam -->
+    <a href="kollam.html" class="district-card">
+      <div class="card-header">
+        <h3>Kollam</h3>
+        <span class="tag average">Average</span>
+      </div>
+      <p><br></p>
+      <p>Completion Rate <strong>75%</strong></p>
+      <div class="bar"><div class="progress" style="width: 75%"></div></div>
+      <div class="card-stats">
+        <div><i class="fas fa-building"></i><p>Total Projects<br><strong>40</strong></p></div>
+        <div class="completed"><i class="fas fa-check-circle"></i><p>Completed<br><strong>30</strong></p></div>
+      </div>
+      <div class="meta">
+        <p><i class="fas fa-calendar-alt"></i> Updated: 2024-06-01</p>
+        <p>Budget: <strong>$88M</strong></p>
+        <p>Performance Trend: <span class="trend stable">→ Stable</span></p>
+      </div>
+    </a>
+
+    <!-- Remaining districts -->
+    <!-- Pathanamthitta -->
+    <a href="districts/pathanamthitta.html" class="district-card">
+      <div class="card-header">
+        <h3>Pathanamthitta</h3>
+        <span class="tag good">Good</span>
+      </div>
+      <p><br></p>
+      <p>Completion Rate <strong>88%</strong></p>
+      <div class="bar"><div class="progress" style="width: 88%"></div></div>
+      <div class="card-stats">
+        <div><i class="fas fa-building"></i><p>Total Projects<br><strong>42</strong></p></div>
+        <div class="completed"><i class="fas fa-check-circle"></i><p>Completed<br><strong>37</strong></p></div>
+      </div>
+      <div class="meta">
+        <p><i class="fas fa-calendar-alt"></i> Updated: 2024-06-02</p>
+        <p>Budget: <strong>$92M</strong></p>
+        <p>Performance Trend: <span class="trend good">↑ Improving</span></p>
+      </div>
+    </a>
+
+    <!-- Alappuzha -->
+    <a href="districts/alappuzha.html" class="district-card">
+      <div class="card-header">
+        <h3>Alappuzha</h3>
+        <span class="tag poor">Poor</span>
+      </div>
+      <p><br></p>
+      <p>Completion Rate <strong>54%</strong></p>
+      <div class="bar"><div class="progress" style="width: 54%"></div></div>
+      <div class="card-stats">
+        <div><i class="fas fa-building"></i><p>Total Projects<br><strong>36</strong></p></div>
+        <div class="completed"><i class="fas fa-check-circle"></i><p>Completed<br><strong>19</strong></p></div>
+      </div>
+      <div class="meta">
+        <p><i class="fas fa-calendar-alt"></i> Updated: 2024-06-03</p>
+        <p>Budget: <strong>$60M</strong></p>
+        <p>Performance Trend: <span class="trend poor">↓ Declining</span></p>
+      </div>
+    </a>
+<!-- Remaining districts -->
+     <a href="districts/pathanamthitta.html" class="district-card">
+      <div class="card-header">
+        <h3>Pathanamthitta</h3>
+        <span class="tag good">Good</span>
+      </div>
+      <p><br></p>
+      <p>Completion Rate <strong>88%</strong></p>
+      <div class="bar"><div class="progress" style="width: 88%"></div></div>
+      <div class="card-stats">
+        <div><i class="fas fa-building"></i><p>Total Projects<br><strong>42</strong></p></div>
+        <div class="completed"><i class="fas fa-check-circle"></i><p>Completed<br><strong>37</strong></p></div>
+      </div>
+      <div class="meta">
+        <p><i class="fas fa-calendar-alt"></i> Updated: 2024-06-02</p>
+        <p>Budget: <strong>$92M</strong></p>
+        <p>Performance Trend: <span class="trend good">↑ Improving</span></p>
+      </div>
+    </a>
+<!-- Remaining districts -->
+        <a href="districts/alappuzha.html" class="district-card">
+      <div class="card-header">
+        <h3>Alappuzha</h3>
+        <span class="tag poor">Poor</span>
+      </div>
+      <p><br></p>
+      <p>Completion Rate <strong>54%</strong></p>
+      <div class="bar"><div class="progress" style="width: 54%"></div></div>
+      <div class="card-stats">
+        <div><i class="fas fa-building"></i><p>Total Projects<br><strong>36</strong></p></div>
+        <div class="completed"><i class="fas fa-check-circle"></i><p>Completed<br><strong>19</strong></p></div>
+      </div>
+      <div class="meta">
+        <p><i class="fas fa-calendar-alt"></i> Updated: 2024-06-03</p>
+        <p>Budget: <strong>$60M</strong></p>
+        <p>Performance Trend: <span class="trend poor">↓ Declining</span></p>
+      </div>
+    </a>
+
+    <!-- Continue similarly for the rest of the districts -->
+    <!-- Kottayam, Idukki, Ernakulam, Thrissur, Palakkad, Malappuram, Kozhikode, Wayanad, Kannur, Kasaragod -->
+</div>
+ 
+
+
+  <footer class="kerala-footer">
+  <div class="footer-container">
+    <div class="footer-about">
+      <h3>Kerala Government</h3>
+      <p>
+        Official portal of the Government of Kerala. Bringing transparency, services, and information
+        to the people of Kerala.
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Departments</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Citizen Services</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-contact">
+      <h4>Contact Info</h4>
+      <p><i class="fas fa-map-marker-alt"></i> Secretariat, Thiruvananthapuram, Kerala, India</p>
+      <p><i class="fas fa-phone-alt"></i> +91 471 1234567</p>
+      <p><i class="fas fa-envelope"></i> info@kerala.gov.in</p>
+    </div>
+  </div>
+    <div class="footer-social">
+      <h4>Follow Us</h4>
+      <div class="social-icons">
+        <a href="#" aria-label="Facebook" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Twitter" title="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="YouTube" title="YouTube"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+   </div>
+</footer>
+
+  <!-- Logout Confirmation Modal -->
+<div id="logoutModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeLogoutModal()">&times;</span>
+    <h3>Are you sure you want to logout?</h3>
+    <button onclick="confirmLogout()">Logout</button>
+    <button onclick="closeLogoutModal()">Cancel</button>
+    
+  </div>
+   </div>
+<!-- Chatbot Modal -->
+<div id="chatbotModal" class="modal">
+  <div class="modal-content" style="max-width: 600px;">
+    <span class="close" onclick="toggleChatbot()">&times;</span>
+    <h3>🗣️ Chat with District DM</h3>
+    <label for="dmSelect">Choose District:</label>
+    <select id="dmSelect" style="width: 100%; margin-bottom: 10px;"></select>
+    <div style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;" id="chatBox"></div>
+    <textarea id="userMessage" placeholder="Type your message..."></textarea>
+    <div class="send-wrapper">
+  <button onclick="sendMessage()"> Send Message</button>
+  </div>
+</div>
+</div>
+
+<!-- Floating AI Button -->
+<!-- Floating AI Chat Button -->
+<!-- Floating AI Chat Button -->
+<button id="aiChatbotButton" onclick="openAIChatModal()" title="Ask AI">🤖 AI Help</button>
+
+<!-- AI Assistant Modal -->
+<div id="aiModal" class="modal">
+  <div class="ai-modal-box">
+    <div class="ai-modal-header">
+      <h3>🤖 Kerala AI Assistant</h3>
+      <span class="ai-close" onclick="closeAIChatModal()">&times;</span>
+    </div>
+    <div id="aiChatBox" class="ai-chatbox"></div>
+    <div class="ai-input-area">
+      <textarea id="aiUserMessage" placeholder="Ask something..."></textarea>
+      <button onclick="sendAIMessage()">Send</button>
+    </div>
+  </div>
+</div>
+<!-- 📸 Camera Modal -->
+<div id="cameraModal" class="modal">
+  <div class="modal-content" style="max-width: 600px; text-align: center;">
+    <span class="close" onclick="closeCameraModal()" style="float: right; font-size: 24px;">&times;</span>
+    <h3>📸 Capture Photo</h3>
+    <video id="video" autoplay playsinline style="width: 100%; border-radius: 10px;"></video>
+    <br />
+    <button onclick="capturePhoto()">📷 Capture</button>
+    <button onclick="closeCameraModal()">Close</button>
+    <canvas id="canvas" style="display: none;"></canvas>
+  </div>
+</div>
+
+<!-- 📝 Stylish Document Upload Modal -->
+<div id="docUploadModal" class="modal">
+  <div class="modal-content" style="max-width: 520px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); overflow: hidden;">
+    <div style="background: linear-gradient(to right, #056014, #0c8c4d); color: white; padding: 20px 25px; display: flex; justify-content: space-between; align-items: center;">
+      <h3 style="margin: 0;">📤 Upload Document</h3>
+      <span class="close" onclick="closeDocumentUploadModal()" style="font-size: 24px; cursor: pointer;">&times;</span>
+    </div>
+    <div style="padding: 25px;">
+      <form id="documentForm">
+        <label for="docDistrict" style="font-weight: 600; color: #333;">Select District:</label>
+        <select id="docDistrict" required style="width: 100%; padding: 10px; margin: 10px 0 20px; border-radius: 8px; border: 1px solid #ccc;">
+          <option value="">-- Select District --</option>
+        </select>
+
+        <label for="docFile" style="font-weight: 600; color: #333;">Choose Document:</label>
+        <input type="file" id="docFile" accept=".pdf,.jpg,.jpeg,.png" required
+          style="display: block; width: 100%; padding: 10px; margin: 10px 0 20px; border: 1px solid #ccc; border-radius: 8px;" />
+
+          <!-- 📷 Camera Button -->
+<button type="button" onclick="openCameraModal()" style="
+  background-color: #444; margin-bottom: 15px;
+  padding: 10px 20px; color: white; border-radius: 8px; border: none;
+">📷 Open Camera</button>
+
+        
+
+        <button type="submit" style="
+          background: linear-gradient(135deg, #056014, #0c8c4d);
+          color: white;
+          padding: 12px 24px;
+          border: none;
+          border-radius: 30px;
+          font-size: 16px;
+          font-weight: 600;
+          cursor: pointer;
+          width: 100%;
+          transition: all 0.3s ease;
+        ">Submit for Approval</button>
+      </form>
+      <div id="uploadMessage" class="confirmation" style="text-align: center; margin-top: 20px; font-weight: 600;"></div>
+
+<hr style="margin: 25px 0;">
+<h4 style="margin-bottom: 10px;">📂 Upload History</h4>
+
+<div style="max-height: 160px; overflow-y: auto; border: 1px solid #ddd; border-radius: 6px;">
+  <table id="uploadHistory" style="width: 100%; border-collapse: collapse; font-size: 14px;">
+    <thead style="position: sticky; top: 0; background-color: #f9f9f9;">
+      <tr>
+        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">District</th>
+        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">File Name</th>
+        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Time</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- FontAwesome CDN for icons -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="md_dashboard.js"></script>
+  
+  <script>
+  const sidebar = document.querySelector('.sidebar');
+  const dashboard = document.querySelector('.dashboard');
+
+  sidebar.addEventListener('mouseenter', () => {
+    dashboard.classList.add('sidebar-expanded');
+  });
+
+  sidebar.addEventListener('mouseleave', () => {
+    dashboard.classList.remove('sidebar-expanded');
+  });
+</script>
+
+</body>
+</html>

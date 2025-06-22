@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="development.css">
+      <style>
+    /* Inline fix for canvas height */
+    canvas {
+      height: 300px !important; /* Ensures consistent height */
+    }
+     body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f6f8;
+    }
+
+    header {
+      background-color: #004d40;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .filter-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      background-color: #e0f2f1;
+      padding: 20px;
+    }
+
+    select {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
+
+    .card-image img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 15px;
+    }
+
+    .card-content h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .card-content p {
+      margin: 5px 0;
+      color: #333;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 12px;
+      background-color: #00796b;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    .btn:hover {
+      background-color: #004d40;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+<div class="header-top">
+  <div class="header-left">
+    <img src="https://img.onmanorama.com/content/dam/mm/en/kerala/top-news/images/2024/1/29/kerala-government-ls.jpg" alt="Kerala Government Logo" />
+    <div class="title-text">
+      <h1>Kerala Govt. Dashboard</h1>
+      <p>Government of Kerala</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="time">
+      <div id="currentDate">Date</div>
+      <div id="currentTime">Time</div>
+    </div>
+    <div class="notif">
+      <i class="fas fa-bell"></i>
+      <div class="dot">3</div>
+    </div>
+    <div class="profile">
+      <img src="https://www.ksie.net/management_images/VR19019_9447366193_.jpg" alt="MD Kerala profile photo" /> 
+    </div>
+    <div class="logout" onclick="openLogoutModal()">
+      <i class="fas fa-sign-out-alt"></i>
+    </div>
+  </div>
+</div>
+<!--side bar code -->
+  <div class="sidebar">
+    <ul>
+      <li onclick="location.href='md_dashboard.html'"><i class="fas fa-chart-line"></i><span>Dashboard</span></li>
+      <li onclick="location.href='development.html'"><i class="fas fa-building"></i><span>Project analysis</span></li>
+      <li onclick="location.href='mediagallary.html'"><i class="fas fa-photo-video"></i><span>Media Gallery</span></li>
+      <li onclick="location.href='report-analyticsmd.html'"><i class="fas fa-chart-pie"></i><span>Report & Analytics</span></li>
+      <li onclick="openDocumentUploadModal()">
+  <i class="fas fa-file-upload"></i>
+  <span>Upload Documents</span>
+</li>
+      <li onclick="location.href='setting.html'"><i class="fas fa-cog"></i><span>Settings</span></li>
+        <li onclick="toggleChatbot()">
+  <i class="fas fa-comments"></i>
+  <span>Chat with DMs</span>
+</li>
+
+      <li onclick="openLogoutModal()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></li>
+
+    </ul>
+  </div>
+  <div class="dashboard">
+    
+ <section class="hero">
+    <h1>Kerala Government <span>Development Projects</span></h1>
+    <p><b>Explore our flagship initiatives budgets, timelines, progress, and impacts driving Kerala's transformation</b></p>
+    <div class="buttons">
+      <button style="background:#fff; color:green;">View All Projects</button>
+    </div>
+  </section>
+
+<header>
+    <h1>Running, Updated & Under Construction Projects</h1>
+  </header>
+
+  <section class="filter-section">
+    <select id="districtFilter" title="District Filter">
+      <option value="all">All Districts</option>
+    </select>
+
+    <select id="departmentFilter" title="Department Filter">
+      <option value="all">All Departments</option>
+    </select>
+
+    <select id="statusFilter" title="Project Status Filter">
+      <option value="running">Running</option>
+      <option value="under-construction">Under Construction</option>
+      <option value="planning">Planning</option>
+    </select>
+  </section>
+
+  <section class="grid" id="projectGrid">
+    <!-- Cards will appear here -->
+  </section>
+
+
+
+<!-- Logout Confirmation Modal -->
+<div id="logoutModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeLogoutModal()">&times;</span>
+    <h3>Are you sure you want to logout?</h3>
+    <button onclick="confirmLogout()" style="background:#d9534f;">Logout</button>
+    <button onclick="closeLogoutModal()" style="background:#6c757d;">Cancel</button>
+  </div>
+</div>
+
+
+ <!-- Footer Section -->
+<footer class="kerala-footer">
+  <div class="footer-container">
+    <div class="footer-about">
+      <h3>Kerala Government</h3>
+      <p>
+        Official portal of the Government of Kerala. Bringing transparency, services, and information
+        to the people of Kerala.
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Departments</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Citizen Services</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-contact">
+      <h4>Contact Info</h4>
+      <p><i class="fas fa-map-marker-alt"></i> Secretariat, Thiruvananthapuram, Kerala, India</p>
+      <p><i class="fas fa-phone-alt"></i> +91 471 1234567</p>
+      <p><i class="fas fa-envelope"></i> info@kerala.gov.in</p>
+    </div>
+
+    <div class="footer-social">
+      <h4>Follow Us</h4>
+      <div class="social-icons">
+        <a href="#" aria-label="Facebook" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Twitter" title="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="YouTube" title="YouTube"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Government of Kerala. All Rights Reserved.</p>
+  </div>
+  </div>
+</footer>
+
+<!-- Project Details Modal -->
+<!-- Project Details Modal -->
+<div id="projectModal" class="modal" onclick="handleOutsideClick(event)" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.7); align-items:center; justify-content:center; z-index:1000;">
+  <div id="projectModalContent" style="background:white; padding:20px; border-radius:10px; width:400px; max-height:90vh; overflow-y:auto; position:relative;"></div>
+  
+
+</div>
+<div id="satelliteModal" class="modal" onclick="closeSatelliteModal()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:1000;">
+  <div id="satelliteModalContent" onclick="event.stopPropagation()"
+  style="background:white; padding:20px; border-radius:10px; width:90%; max-width:800px; max-height:90vh; overflow-y:auto; position:relative; display:flex; flex-direction:column;">
+</div>
+
+
+<!-- Chatbot Modal -->
+<div id="chatbotModal" class="modal" style="display: none; justify-content: center; align-items: center;">
+  <div class="modal-content" style="max-width: 500px;">
+    <span class="close" onclick="toggleChatbot()">&times;</span>
+    <h3>🗣️ Chat with District DMs</h3>
+    <label for="dmSelect">Choose District:</label>
+    <select id="dmSelect" style="width: 100%; margin-bottom: 10px;"></select>
+    <div id="chatBox" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;"></div>
+    <textarea id="userMessage" placeholder="Type your message..." style="width: 100%; height: 80px;"></textarea>
+    <div class="send-wrapper" style="text-align: center; margin-top: 10px;">
+      <button onclick="sendMessage()" style="background: #056014; color: white; padding: 10px 28px; border: none; border-radius: 30px; cursor: pointer;">🚀 Send Message</button>
+    </div>
+  </div>
+</div>
+
+
+  </div>
+</div>
+
+<button id="aiChatbotButton" onclick="openAIChatModal()" title="Ask AI">🤖 AI Help</button>
+
+<!-- AI Assistant Modal -->
+<div id="aiModal" class="modal">
+  <div class="ai-modal-box">
+    <div class="ai-modal-header">
+      <h3>🤖 Kerala AI Assistant</h3>
+      <span class="ai-close" onclick="closeAIChatModal()">&times;</span>
+    </div>
+    <div id="aiChatBox" class="ai-chatbox"></div>
+    <div class="ai-input-area">
+      <textarea id="aiUserMessage" placeholder="Ask something..."></textarea>
+      <button onclick="sendAIMessage()">Send</button>
+    </div>
+  </div>
+</div>
+
+<script src="development.js"></script>
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery view</title>
+    <meta name="description" content="Discover the enchanting beauty of God's Own Country through our curated collection of stunning visuals">
+    
+    <!-- Google Fonts -->
+    <link href="report.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="mediagallary.css">
+</head>
+ <style>
+  .district-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #056014;  /* Dark Kerala green */
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    h2 {
+      color: #004d40;
+      margin-bottom: 10px;
+    }
+
+    label, select {
+      margin: 10px 10px 20px 0;
+      font-size: 16px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 250px;
+      margin: 10px;
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .card img:hover{
+      cursor: pointer;
+      transform: scale(1.05);
+      transition: transform 0.3s ease;
+    }
+
+    .card-content {
+      padding: 10px;
+    }
+
+    #projectGrid, #cmVisitGrid {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 8px 12px;
+      background-color: #009688;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #00796b;
+    }
+
+    #imageModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.9);
+      z-index: 1000;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto;
+      padding: 30px;
+    }
+
+    #imageModalClose {
+      color: white;
+      font-size: 30px;
+      position: absolute;
+      top: 20px; right: 30px;
+      cursor: pointer;
+    }
+
+    #modalImages img {
+      width: 300px;
+      margin: 10px;
+      border-radius: 8px;
+      cursor: zoom-in;
+    }
+
+    #modalTitle {
+      color: white;
+      margin-bottom: 20px;
+    }
+  </style>
+        <!-- Navigation Bar -->
+<div class="header-top">
+  <div class="header-left">
+    <img src="https://img.onmanorama.com/content/dam/mm/en/kerala/top-news/images/2024/1/29/kerala-government-ls.jpg" alt="Kerala Government Logo" />
+    <div class="title-text">
+      <h1>Kerala Govt. Dashboard</h1>
+      <p>Government of Kerala</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="time">
+      <div id="currentDate">Date</div>
+      <div id="currentTime">Time</div>
+    </div>
+    <div class="notif">
+      <i class="fas fa-bell"></i>
+      <div class="dot">3</div>
+    </div>
+    <div class="profile">
+      <img src="https://www.ksie.net/management_images/VR19019_9447366193_.jpg" alt="MD Kerala profile photo" /> 
+    </div>
+    <div class="logout" onclick="openLogoutModal()">
+      <i class="fas fa-sign-out-alt"></i>
+    </div>
+  </div>
+</div>
+
+  <div class="sidebar">
+    <ul>
+      <li onclick="location.href='md_dashboard.html'"><i class="fas fa-chart-line"></i><span>Dashboard</span></li>
+      <li onclick="location.href='development.html'"><i class="fas fa-building"></i><span>Development Project</span></li>
+      <li onclick="location.href='mediagallary.html'"><i class="fas fa-photo-video"></i><span>Media Gallery</span></li>
+      <li onclick="location.href='report-analyticsmd.html'"><i class="fas fa-chart-pie"></i><span>Report & Analytics</span></li>
+      <li onclick="openDocumentUploadModal()">
+  <i class="fas fa-file-upload"></i>
+  <span>Upload Documents</span>
+</li>
+      <li onclick="location.href='setting.html'"><i class="fas fa-cog"></i><span>Settings</span></li>
+      <li onclick="toggleChatbot()">
+  <i class="fas fa-comments"></i><span>Chat with DMs</span>
+</li>
+
+
+      <li onclick="openLogoutModal()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></li>
+
+
+
+    </ul>
+  </div>
+<div id="logoutModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close" onclick="closeLogoutModal()">&times;</span>
+    <h3>Are you sure you want to logout?</h3>
+    <button onclick="confirmLogout()">Logout</button>
+    <button onclick="closeLogoutModal()">Cancel</button>
+  </div>
+</div>
+ <!-- Hero Section -->
+       <div class="dashboard">
+    <section class="hero">
+        <div class="hero-bg">
+            <div class="hero-overlay"></div>
+            <div class="hero-pattern">
+                <div class="pattern-circle pattern-1"></div>
+                <div class="pattern-circle pattern-2"></div>
+                <div class="pattern-circle pattern-3"></div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Discover
+                    <span class="hero-subtitle">God's Own Country</span>
+                </h1>
+                
+                <p class="hero-description">
+                    Experience the enchanting beauty of Kerala through our curated collection of stunning visuals, 
+                    vibrant culture, and breathtaking landscapes.
+                </p>
+
+                <div class="hero-buttons">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-play"></i>
+                        Explore Gallery
+                    </button>
+                    
+
+                </div>
+
+                <div class="scroll-indicator">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Media Grid Section -->
+    
+
+   <div class="main-container">
+    <h2><b>>Kerala Project Gallery</h2></b>
+
+    <label>District:</label>
+    <select id="districtFilter">
+      <option value="All">All</option>
+      <option value="Ernakulam">Ernakulam</option>
+      <option value="Kozhikode">Kozhikode</option>
+      <option value="Tiruvantapuram">Tiruvantapuram</option>
+      <option value="Alappuzha">Alappuzha</option>
+    </select>
+
+    <label>Department:</label>
+    <select id="departmentFilter">
+      <option value="All">All</option>
+      <option value="Health">Health</option>
+      <option value="Education">Education</option>
+      <option value="Industrial Development">Industrial Development</option>
+      <option value="Production Department">Production Department</option>
+    </select>
+
+    <label>Status:</label>
+    <select id="statusFilter">
+      <option value="All">All</option>
+      <option value="running">running</option>
+      <option value="completed">completed</option>
+      <option value="under-construction">under-construction</option>
+    </select>
+
+    <div id="projectGrid"></div>
+  </div>
+
+  <!-- Section 2: CM Visit Gallery -->
+<!-- Section 2: CM Visit Gallery -->
+<!-- Section 2: CM Visit Gallery -->
+<div class="main-container">
+  <h2><b>>MD Visit Gallery</b></h2>
+
+  <label>District:</label>
+  <select id="cmDistrictFilter">
+    <option value="All">All</option>
+    <option value="Ernakulam">Ernakulam</option>
+    <option value="Kozhikode">Kozhikode</option>
+    <option value="Tiruvantapuram">Tiruvantapuram</option>
+    <option value="Alappuzha">Alappuzha</option>
+  </select>
+
+  <div id="cmVisitGrid"></div>
+</div>
+
+  <!-- Modal -->
+   <div id="imageModal">
+    <span id="imageModalClose" onclick="closeModal()">&times;</span>
+    <h2 id="modalTitle"></h2>
+    <div id="modalImages"></div>
+  </div>
+<!-- Media Grid Section2 -->
+ 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <!-- Brand Section -->
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">K</div>
+                        <span class="footer-logo-text">Kerala Mosaic</span>
+                    </div>
+                    
+                    <p class="footer-description">
+                        Discover the enchanting beauty of God's Own Country through our comprehensive 
+                        showcase of Kerala's natural wonders, rich culture, and breathtaking landscapes.
+                    </p>
+
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Kochi, Kerala, India</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 98765 43210</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>hello@keralamosaic.com</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer-links">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="link-list">
+                        <li><a href="#destinations">Destinations</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#events">Events</a></li>
+                        <li><a href="#culture">Culture</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="footer-newsletter">
+                    <h3 class="footer-title">Stay Connected</h3>
+                    <p class="newsletter-description">
+                        Subscribe to our newsletter for the latest updates and stunning Kerala content.
+                    </p>
+                    
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email" class="newsletter-input">
+                        <button class="btn btn-newsletter">Subscribe</button>
+                    </div>
+
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="copyright">
+                        © 2024 Kerala Mosaic. All rights reserved. Made with ❤ for Kerala tourism.
+                    </p>
+                    <div class="footer-bottom-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    
+    <!-- Global Share Dropdown Outside All Cards -->
+<div id="globalShareDropdown" class="global-share-dropdown hidden">
+  <a href="#" id="facebookLink" target="_blank">📘 Facebook</a>
+  <a href="#" id="whatsappLink" target="_blank">🟢 WhatsApp</a>
+  <a href="#" id="twitterLink" target="_blank">🐦 Twitter</a>
+  <a href="#" id="linkedinLink" target="_blank">🔗 LinkedIn</a>
+</div>
+<!-- Chatbot Modal -->
+
+<!-- Chatbot Modal -->
+<div id="chatbotModal" class="modal" style="display: none; justify-content: center; align-items: center;">
+  <div class="modal-content" style="max-width: 500px;">
+    <span class="close" onclick="toggleChatbot()">&times;</span>
+    <h3>🗣️ Chat with District DM</h3>
+    <label for="dmSelect">Choose District:</label>
+    <select id="dmSelect" style="width: 100%; margin-bottom: 10px;"></select>
+    <div id="chatBox" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;"></div>
+    <textarea id="userMessage" placeholder="Type your message..."></textarea>
+    <div class="send-wrapper">
+      <button onclick="sendMessage()">🚀 Send Message</button>
+    </div>
+  </div>
+</div>
+
+<button id="aiChatbotButton" onclick="openAIChatModal()" title="Ask AI">🤖 AI Help</button>
+
+<!-- AI Assistant Modal -->
+<div id="aiModal" class="modal">
+  <div class="ai-modal-box">
+    <div class="ai-modal-header">
+      <h3>🤖 Kerala AI Assistant</h3>
+      <span class="ai-close" onclick="closeAIChatModal()">&times;</span>
+    </div>
+    <div id="aiChatBox" class="ai-chatbox"></div>
+    <div class="ai-input-area">
+      <textarea id="aiUserMessage" placeholder="Ask something..."></textarea>
+      <button onclick="sendAIMessage()">Send</button>
+    </div>
+  </div>
+</div>
+
+
+    <script src="mediagallary.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - Add User</title>
+  <link rel="stylesheet" href="admin.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+  <div class="navbar">
+    <h1><img src="https://img.onmanorama.com/content/dam/mm/en/kerala/top-news/images/2024/1/29/kerala-government-ls.jpg?w=1120&h=583" alt="Logo"> Kerala Admin Panel</h1>
+    <div>
+      <a href="index.html">🏠 Home</a>
+      <a href="Admin_Login.html">🔒 Logout</a>
+    </div>
+  </div>
+
+  <div class="box">
+    <h2>👥 Add New User</h2>
+    <p style="font-size: 14px; color: #f8f8f8; text-align: center; margin-top: -10px; margin-bottom: 20px;">
+      Use this form to register a new administrative user to the system.
+    </p>
+    <label>Role: <input type="text" id="role" placeholder="e.g., DMtech, Cmtech" /></label>
+    <label>Username: <input type="text" id="username" placeholder="e.g., johndoe" /></label>
+    <label>Password: <input type="text" id="password" placeholder="Create a strong password" /></label>
+    <label>Admin Key: <input type="password" id="adminKey" placeholder="Enter secure admin key" /></label>
+    <button onclick="addUser()">➕ Add User</button>
+  </div>
+
+  <div class="box1">
+    <h2>🗑️ Delete User</h2>
+    <p style="font-size: 14px; color: #333; text-align: center; margin-top: -10px; margin-bottom: 20px;">
+      Caution: Deleting a user will revoke their portal access permanently.
+    </p>
+    <label>Username: <input type="text" id="deleteUsername" placeholder="Username to delete" /></label>
+    <label>Admin Key: <input type="password" id="deleteAdminKey" placeholder="Enter admin key to confirm" /></label>
+    <button onclick="deleteUser()">❌ Delete User</button>
+  </div>
+
+  <script>
+    function addUser() {
+      const role = document.getElementById("role").value;
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const adminKey = document.getElementById("adminKey").value;
+
+      fetch("http://localhost:3000/update-users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          adminKey,
+          newUser: { role, username, password }
+        })
+      })
+      .then(res => res.json())
+      .then(data => alert(data.message))
+      .catch(err => alert("Error: " + err.message));
+    }
+
+    function deleteUser() {
+      const username = document.getElementById("deleteUsername").value;
+      const adminKey = document.getElementById("deleteAdminKey").value;
+
+      fetch("http://localhost:3000/delete-user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          adminKey,
+          username
+        })
+      })
+      .then(res => res.json())
+      .then(data => alert(data.message))
+      .catch(err => alert("Error: " + err.message));
+    }
+  </script>
+</body>
+</html>
