@@ -1,7 +1,7 @@
 const projects = [
     {
       title: ' Seed Capital Financial Assistance Scheme', district: 'Ernakulam', department: 'Industrial Development', status: 'running',
-      thumbnail: 'https://scontent.fdel29-1.fna.fbcdn.net/v/t39.30808-6/488397894_1121558393315733_4504551950325409630_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=JXgSe4bJ8TEQ7kNvwHgg_oB&_nc_oc=AdntoJ6AB-wFSuckmHeYYGUHmOPgVBgx5AFJ0XOjYlfH-K6fVAfdajmGAuA4G14vMgs&_nc_zt=23&_nc_ht=scontent.fdel29-1.fna&_nc_gid=Ge4w_8Bk6G-jziiHj6v6Zg&oh=00_AfO8zpW3lsJnHy-F85O8JcZStTRF8vYvMHS0uYVDlP_utg&oe=685581D0',
+      thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9fCh26XLwRlCI-ly4Nm9hlRLiqNFZDt26Yw&s',
       summary: 'The picture appears to show a formal function in Kerala where the Managing Director of KSIDC (Kerala State Industrial Development Corporation), M. G. Rajamanickam, IAS, is involved',
       images: [
         'https://scontent.fdel29-1.fna.fbcdn.net/v/t39.30808-6/488397894_1121558393315733_4504551950325409630_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=JXgSe4bJ8TEQ7kNvwHgg_oB&_nc_oc=AdntoJ6AB-wFSuckmHeYYGUHmOPgVBgx5AFJ0XOjYlfH-K6fVAfdajmGAuA4G14vMgs&_nc_zt=23&_nc_ht=scontent.fdel29-1.fna&_nc_gid=Ge4w_8Bk6G-jziiHj6v6Zg&oh=00_AfO8zpW3lsJnHy-F85O8JcZStTRF8vYvMHS0uYVDlP_utg&oe=685581D0',
