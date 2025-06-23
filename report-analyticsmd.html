@@ -43,15 +43,7 @@
       <li onclick="location.href='development.html'"><i class="fas fa-building"></i><span>Project analysis</span></li>
       <li onclick="location.href='mediagallary.html'"><i class="fas fa-photo-video"></i><span>Media Gallery</span></li>
       <li onclick="location.href='report-analyticsmd.html'"><i class="fas fa-chart-pie"></i><span>Report & Analytics</span></li>
-      <li onclick="location.href='md_dashboard.html?upload=true'">
- <i class="fas fa-file-upload"></i>
-  <span>Upload Documents</span>
-</li>
      <li onclick="location.href='setting.html'"><i class="fas fa-cog"></i><span>Settings</span></li>
-     <li onclick="toggleChatbot()">
-  <i class="fas fa-comments"></i>
-  <span>Chat with DMs</span>
-</li>
       <li onclick="openLogoutModal()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></li>
     </ul>
   </div>
@@ -116,8 +108,7 @@
   <div class="section-title" id="project-tracker">Track Project Progress</div>
 
   <div class="track-container">
-    <label for="projectTracker" class="visually-hidden">Project Tracker</label>
-    <select id="projectTracker" title="Project Tracker">
+    <select id="projectTracker">
       <option value="All">Select a Project</option>
     </select>
 
@@ -205,35 +196,17 @@
     <h3>Update Report</h3>
     <form id="updateForm">
       <label>Project Name:</label>
-      <input type="text" id="updateProject" required placeholder="Enter project name" title="Enter the project name"><br>
+      <input type="text" id="updateProject" required><br>
       <label>Budget (₹):</label>
-      <input type="number" id="updateBudget" required placeholder="Enter budget amount" title="Enter the budget amount"><br>
+      <input type="number" id="updateBudget" required><br>
       <label>Requested Amount (₹):</label>
-      <input type="number" id="updateRequested" required placeholder="Enter requested amount" title="Enter the requested amount"><br>
+      <input type="number" id="updateRequested" required><br>
       <label>Last Date:</label>
-      <input type="date" id="updateLastDate" required placeholder="Select last date" title="Select the last date"><br><br>
+      <input type="date" id="updateLastDate" required><br><br>
       <button type="submit" class="btn success">💾 Save Changes</button>
     </form>
   </div>
 </div>
-<button id="aiChatbotButton" onclick="openAIChatModal()" title="Ask AI">🤖 AI Help</button>
-
-<!-- AI Assistant Modal -->
-<div id="aiModal" class="modal">
-  <div class="ai-modal-box">
-    <div class="ai-modal-header">
-      <h3>🤖 Kerala AI Assistant</h3>
-      <span class="ai-close" onclick="closeAIChatModal()">&times;</span>
-    </div>
-    <div id="aiChatBox" class="ai-chatbox"></div>
-    <div class="ai-input-area">
-      <textarea id="aiUserMessage" placeholder="Ask something..."></textarea>
-      <button onclick="sendAIMessage()">Send</button>
-    </div>
-  </div>
-</div>
-
-
 
 
  </body>
